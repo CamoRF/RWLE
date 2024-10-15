@@ -1,0 +1,198 @@
+scn aaaRWLENightBrightnessUDF
+
+ref rCurrentWeather 
+short iCurrentDay 
+float fRand
+  
+begin function { rCurrentWeather, iCurrentDay, fRand } 	 
+
+if rCurrentWeather == WastelandRadStormWindExtreme 
+else 	
+	if iCurrentDay >= 1 && iCurrentDay <= 2 
+		SetWeatherImageSpaceMod rCurrentWeather 3 NightHalfMoonISFX
+		SetWeatherImageSpaceMod rCurrentWeather 5 NightHalfMoonISFX
+			
+		SetMoonTexture 0 "textures/rwle/moon/masser_half_wan.dds"
+		SetMoonTexture 1 "textures/rwle/moon/masser_half_wan.dds"
+		SetMoonTexture 2 "textures/rwle/moon/masser_half_wan.dds"
+		SetMoonTexture 3 "textures/rwle/moon/masser_half_wan.dds"
+		SetMoonTexture 4 "textures/rwle/moon/masser_half_wan.dds"
+		SetMoonTexture 5 "textures/rwle/moon/masser_half_wan.dds"
+		SetMoonTexture 6 "textures/rwle/moon/masser_half_wan.dds"
+		SetMoonTexture 7 "textures/rwle/moon/masser_half_wan.dds"
+		printc "RWLE: half moon [NightSystemUDF]"
+	elseif iCurrentDay >= 3 && iCurrentDay <= 5 
+		SetWeatherImageSpaceMod rCurrentWeather 3 NightThreeQuarterMoonISFX 
+		SetWeatherImageSpaceMod rCurrentWeather 5 NightThreeQuarterMoonISFX  
+		
+		SetMoonTexture 0 "textures/rwle/moon/masser_three_wan.dds"
+		SetMoonTexture 1 "textures/rwle/moon/masser_three_wan.dds"
+		SetMoonTexture 2 "textures/rwle/moon/masser_three_wan.dds"
+		SetMoonTexture 3 "textures/rwle/moon/masser_three_wan.dds"
+		SetMoonTexture 4 "textures/rwle/moon/masser_three_wan.dds"
+		SetMoonTexture 5 "textures/rwle/moon/masser_three_wan.dds"
+		SetMoonTexture 6 "textures/rwle/moon/masser_three_wan.dds"
+		SetMoonTexture 7 "textures/rwle/moon/masser_three_wan.dds"
+		
+		printc "RWLE: 3/4 moon [NightSystemUDF]"
+	elseif iCurrentDay >= 6 && iCurrentDay <= 8
+		SetWeatherImageSpaceMod rCurrentWeather 3 NightFullMoonISFX
+		SetWeatherImageSpaceMod rCurrentWeather 5 NightFullMoonISFX
+		
+		if RWLEQuest.iSpecialMoon
+			if fRand >= 0 && fRand < 33 
+				SetMoonTexture 0 "textures/rwle/moon/harvestmoon.dds"
+				SetMoonTexture 1 "textures/rwle/moon/harvestmoon.dds"
+				SetMoonTexture 2 "textures/rwle/moon/harvestmoon.dds"
+				SetMoonTexture 3 "textures/rwle/moon/harvestmoon.dds"
+				SetMoonTexture 4 "textures/rwle/moon/harvestmoon.dds"
+				SetMoonTexture 5 "textures/rwle/moon/harvestmoon.dds"
+				SetMoonTexture 6 "textures/rwle/moon/harvestmoon.dds"
+				SetMoonTexture 7 "textures/rwle/moon/harvestmoon.dds"
+			elseif fRand >= 34 && fRand <= 65 
+				SetMoonTexture 0 "textures/rwle/moon/bloodmoon.dds"
+				SetMoonTexture 1 "textures/rwle/moon/bloodmoon.dds"
+				SetMoonTexture 2 "textures/rwle/moon/bloodmoon.dds"
+				SetMoonTexture 3 "textures/rwle/moon/bloodmoon.dds"
+				SetMoonTexture 4 "textures/rwle/moon/bloodmoon.dds"
+				SetMoonTexture 5 "textures/rwle/moon/bloodmoon.dds"
+				SetMoonTexture 6 "textures/rwle/moon/bloodmoon.dds"
+				SetMoonTexture 7 "textures/rwle/moon/bloodmoon.dds"
+			elseif fRand > 65 
+				SetMoonTexture 0 "textures/rwle/moon/bluemoon.dds"
+				SetMoonTexture 1 "textures/rwle/moon/bluemoon.dds"
+				SetMoonTexture 2 "textures/rwle/moon/bluemoon.dds"
+				SetMoonTexture 3 "textures/rwle/moon/bluemoon.dds"
+				SetMoonTexture 4 "textures/rwle/moon/bluemoon.dds"
+				SetMoonTexture 5 "textures/rwle/moon/bluemoon.dds"
+				SetMoonTexture 6 "textures/rwle/moon/bluemoon.dds"
+				SetMoonTexture 7 "textures/rwle/moon/bluemoon.dds"
+			endif 
+		else 
+			SetMoonTexture 0 "textures/rwle/moon/masser_full.dds"
+			SetMoonTexture 1 "textures/rwle/moon/masser_full.dds"
+			SetMoonTexture 2 "textures/rwle/moon/masser_full.dds"
+			SetMoonTexture 3 "textures/rwle/moon/masser_full.dds"
+			SetMoonTexture 4 "textures/rwle/moon/masser_full.dds"
+			SetMoonTexture 5 "textures/rwle/moon/masser_full.dds"
+			SetMoonTexture 6 "textures/rwle/moon/masser_full.dds"
+			SetMoonTexture 7 "textures/rwle/moon/masser_full.dds"
+		endif 
+		
+		printc "RWLE: full moon [NightSystemUDF]"
+	elseif iCurrentDay >= 9 && iCurrentDay <= 11 
+		SetWeatherImageSpaceMod rCurrentWeather 3 NightThreeQuarterMoonISFX
+		SetWeatherImageSpaceMod rCurrentWeather 5 NightThreeQuarterMoonISFX
+		
+		SetMoonTexture 0 "textures/rwle/moon/masser_three_wax.dds"
+		SetMoonTexture 1 "textures/rwle/moon/masser_three_wax.dds"
+		SetMoonTexture 2 "textures/rwle/moon/masser_three_wax.dds"
+		SetMoonTexture 3 "textures/rwle/moon/masser_three_wax.dds"
+		SetMoonTexture 4 "textures/rwle/moon/masser_three_wax.dds"
+		SetMoonTexture 5 "textures/rwle/moon/masser_three_wax.dds"
+		SetMoonTexture 6 "textures/rwle/moon/masser_three_wax.dds"
+		SetMoonTexture 7 "textures/rwle/moon/masser_three_wax.dds"
+		
+		printc "RWLE: 3/4 moon [NightSystemUDF]"
+	elseif iCurrentDay >= 12 && iCurrentDay <= 14
+		SetWeatherImageSpaceMod rCurrentWeather 3 NightHalfMoonISFX
+		SetWeatherImageSpaceMod rCurrentWeather 5 NightHalfMoonISFX
+		
+		SetMoonTexture 0 "textures/rwle/moon/masser_half_wax.dds"
+		SetMoonTexture 1 "textures/rwle/moon/masser_half_wax.dds"
+		SetMoonTexture 2 "textures/rwle/moon/masser_half_wax.dds"
+		SetMoonTexture 3 "textures/rwle/moon/masser_half_wax.dds"
+		SetMoonTexture 4 "textures/rwle/moon/masser_half_wax.dds"
+		SetMoonTexture 5 "textures/rwle/moon/masser_half_wax.dds"
+		SetMoonTexture 6 "textures/rwle/moon/masser_half_wax.dds"
+		SetMoonTexture 7 "textures/rwle/moon/masser_half_wax.dds"
+	
+		printc "RWLE: half moon [NightSystemUDF]"
+	elseif iCurrentDay >= 15 && iCurrentDay <= 17
+		SetWeatherImageSpaceMod rCurrentWeather 3 NightQuarterMoonISFX
+		SetWeatherImageSpaceMod rCurrentWeather 5 NightQuarterMoonISFX
+		
+		SetMoonTexture 0 "textures/rwle/moon/masser_one_wax.dds"
+		SetMoonTexture 1 "textures/rwle/moon/masser_one_wax.dds"
+		SetMoonTexture 2 "textures/rwle/moon/masser_one_wax.dds"
+		SetMoonTexture 3 "textures/rwle/moon/masser_one_wax.dds"
+		SetMoonTexture 4 "textures/rwle/moon/masser_one_wax.dds"
+		SetMoonTexture 5 "textures/rwle/moon/masser_one_wax.dds"
+		SetMoonTexture 6 "textures/rwle/moon/masser_one_wax.dds"
+		SetMoonTexture 7 "textures/rwle/moon/masser_one_wax.dds"
+		
+		printc "RWLE: 1/4 moon [NightSystemUDF]"
+	elseif iCurrentDay >= 18 && iCurrentDay <= 20
+		SetWeatherImageSpaceMod rCurrentWeather 3 NightNoMoonISFX
+		SetWeatherImageSpaceMod rCurrentWeather 5 NightNoMoonISFX
+		
+		SetMoonTexture 0 "textures/rwle/moon/nomoon.dds"
+		SetMoonTexture 1 "textures/rwle/moon/nomoon.dds"
+		SetMoonTexture 2 "textures/rwle/moon/nomoon.dds"
+		SetMoonTexture 3 "textures/rwle/moon/nomoon.dds"
+		SetMoonTexture 4 "textures/rwle/moon/nomoon.dds"
+		SetMoonTexture 5 "textures/rwle/moon/nomoon.dds"
+		SetMoonTexture 6 "textures/rwle/moon/nomoon.dds"
+		SetMoonTexture 7 "textures/rwle/moon/nomoon.dds"
+		
+		printc "RWLE: no moon [NightSystemUDF]"
+	elseif iCurrentDay >= 21 && iCurrentDay <= 23
+		SetWeatherImageSpaceMod rCurrentWeather 3 NightQuarterMoonISFX
+		SetWeatherImageSpaceMod rCurrentWeather 5 NightQuarterMoonISFX
+		
+		SetMoonTexture 0 "textures/rwle/moon/masser_one_wan.dds"
+		SetMoonTexture 1 "textures/rwle/moon/masser_one_wan.dds"
+		SetMoonTexture 2 "textures/rwle/moon/masser_one_wan.dds"
+		SetMoonTexture 3 "textures/rwle/moon/masser_one_wan.dds"
+		SetMoonTexture 4 "textures/rwle/moon/masser_one_wan.dds"
+		SetMoonTexture 5 "textures/rwle/moon/masser_one_wan.dds"
+		SetMoonTexture 6 "textures/rwle/moon/masser_one_wan.dds"
+		SetMoonTexture 7 "textures/rwle/moon/masser_one_wan.dds"
+		
+		printc "RWLE: 1/4 moon [NightSystemUDF]"
+	elseif iCurrentDay >= 24 && iCurrentDay <= 26
+		SetWeatherImageSpaceMod rCurrentWeather 3 NightHalfMoonISFX
+		SetWeatherImageSpaceMod rCurrentWeather 5 NightHalfMoonISFX		
+		
+		SetMoonTexture 0 "textures/rwle/moon/masser_half_wan.dds"
+		SetMoonTexture 1 "textures/rwle/moon/masser_half_wan.dds"
+		SetMoonTexture 2 "textures/rwle/moon/masser_half_wan.dds"
+		SetMoonTexture 3 "textures/rwle/moon/masser_half_wan.dds"
+		SetMoonTexture 4 "textures/rwle/moon/masser_half_wan.dds"
+		SetMoonTexture 5 "textures/rwle/moon/masser_half_wan.dds"
+		SetMoonTexture 6 "textures/rwle/moon/masser_half_wan.dds"
+		SetMoonTexture 7 "textures/rwle/moon/masser_half_wan.dds"
+		
+		printc "RWLE: half moon [NightSystemUDF]"
+	elseif iCurrentDay >= 27 && iCurrentDay <= 29 
+		SetWeatherImageSpaceMod rCurrentWeather 3 NightThreeQuarterMoonISFX
+		SetWeatherImageSpaceMod rCurrentWeather 5 NightThreeQuarterMoonISFX
+		
+		SetMoonTexture 0 "textures/rwle/moon/masser_three_wan.dds"
+		SetMoonTexture 1 "textures/rwle/moon/masser_three_wan.dds"
+		SetMoonTexture 2 "textures/rwle/moon/masser_three_wan.dds"
+		SetMoonTexture 3 "textures/rwle/moon/masser_three_wan.dds"
+		SetMoonTexture 4 "textures/rwle/moon/masser_three_wan.dds"
+		SetMoonTexture 5 "textures/rwle/moon/masser_three_wan.dds"
+		SetMoonTexture 6 "textures/rwle/moon/masser_three_wan.dds"
+		SetMoonTexture 7 "textures/rwle/moon/masser_three_wan.dds"
+		
+		printc "RWLE: 3/4 moon [NightSystemUDF]"	
+	elseif iCurrentDay > 29
+		SetWeatherImageSpaceMod rCurrentWeather 3 NightFullMoonISFX
+		SetWeatherImageSpaceMod rCurrentWeather 5 NightFullMoonISFX
+		
+		SetMoonTexture 0 "textures/rwle/moon/masser_full.dds"
+		SetMoonTexture 1 "textures/rwle/moon/masser_full.dds"
+		SetMoonTexture 2 "textures/rwle/moon/masser_full.dds"
+		SetMoonTexture 3 "textures/rwle/moon/masser_full.dds"
+		SetMoonTexture 4 "textures/rwle/moon/masser_full.dds"
+		SetMoonTexture 5 "textures/rwle/moon/masser_full.dds"
+		SetMoonTexture 6 "textures/rwle/moon/masser_full.dds"
+		SetMoonTexture 7 "textures/rwle/moon/masser_full.dds"
+		
+		printc "RWLE: full moon [NightSystemUDF]"
+	endif
+endif 
+;printc "RWLE Debug: Night brightness function ran"
+end   

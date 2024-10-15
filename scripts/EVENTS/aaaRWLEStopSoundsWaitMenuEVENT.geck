@@ -1,0 +1,28 @@
+scn	aaaRWLEStopSoundsWaitMenuEVENT
+
+int	iMenuID
+
+begin Function {iMenuID}
+
+if ExtSound1REF.GetDisabled
+else
+	ExtSound1REF.Disable 
+	ExtSound2REF.Disable
+	ExtSound3REF.Disable
+	ExtSound4REF.Disable
+	printc "RWLE: Wait/Sleep menu sounds disabled - exterior [Event]"
+endif 
+if IntSound1REF.GetDisabled
+else 	
+	IntSound1REF.Disable
+	IntSound2REF.Disable
+	IntSound3REF.Disable
+	IntSound4REF.Disable
+	printc "RWLE: Wait/Sleep menu sounds disabled - interior [Event]"
+endif 
+
+if iWaitMenuRWLE == 0
+	set iWaitMenuRWLE to 1 
+endif 
+
+end 

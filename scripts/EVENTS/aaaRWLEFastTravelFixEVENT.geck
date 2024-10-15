@@ -1,0 +1,10 @@
+scn	aaaRWLEFastTravelFixEVENT
+
+ref	rMapMarkerRef
+
+begin Function {rMapMarkerRef}
+
+set iPlayerFastTravelledRWLE to 1  
+printc "RWLE: FastTravel Fix event handler ran [Event] [2]"
+
+end

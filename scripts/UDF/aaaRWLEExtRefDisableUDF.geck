@@ -1,0 +1,388 @@
+scn aaaRWLEExtRefDisableUDF
+;When called upon, disable all the weather refs and exterior sounds
+  
+begin function {}	 
+	;Ash weathers 
+	
+	if Ash1REF.GetDisabled
+	else 
+		Ash1REF.Disable  
+	endif 
+	
+	if AshCinders1REF.GetDisabled
+	else 
+		AshCinders1REF.Disable
+	endif 
+	
+	if AshCindersBright1REF.GetDisabled
+	else 
+		AshCindersBright1REF.Disable
+	endif 
+	
+	if AshGround1REF.GetDisabled
+	else 
+		AshGround1REF.Disable 
+	endif 
+	
+	if AshWhirlwind1REF.GetDisabled
+	else 
+		AshWhirlwind1REF.Disable
+	endif 
+	
+	;Blizzards 
+	
+	if Blizzard1REF.GetDisabled
+	else 
+		Blizzard1REF.Disable
+	endif 
+	
+	if BlizzardSnowMedium1REF.GetDisabled
+	else 
+		BlizzardSnowMedium1REF.Disable
+	endif 
+	
+	;Wind particles 
+	
+	if DustCloudDCREF.GetDisabled
+	else 
+		DustCloudDCREF.Disable  
+	endif 
+	
+	if DustCloudNVREF.GetDisabled
+	else 
+		DustCloudNVREF.Disable  
+	endif 
+	
+	if DustDebrisNVREF.GetDisabled
+	else 
+		DustDebrisNVREF.Disable 
+	endif 
+	
+	if DustDebrisDCREF.GetDisabled
+	else 
+		DustDebrisDCREF.Disable 
+	endif 
+	
+	if DustWhirlWind1REF.GetDisabled
+	else 
+		DustWhirlWind1REF.Disable
+	endif 
+	
+	;Duststorms 
+	
+		;DC
+	
+	if DustStormDC1REF.GetDisabled
+	else 
+		DustStormDC1REF.Disable 
+	endif 
+	
+	if DustStormDC2REF.GetDisabled
+	else 
+		DustStormDC2REF.Disable  
+	endif 
+	
+	if DustStormDCSafeAreaREF.GetDisabled
+	else 
+		DustStormDCSafeAreaREF.Disable  
+	endif 
+	
+		;Mojave
+	
+	if DustStormNV1REF.GetDisabled
+	else 
+		DustStormNV1REF.Disable
+	endif 
+	
+	if DustStormNV2REF.GetDisabled
+	else 
+		DustStormNV2REF.Disable
+	endif 
+	
+	if DustStormNVSafeAreaREF.GetDisabled
+	else 
+		DustStormNVSafeAreaREF.Disable  
+	endif 
+		
+	;Heathaze 	
+		
+	if HeatHazeDistantTorus1REF.GetDisabled
+	else 
+		HeatHazeDistantTorus1REF.Disable
+	endif 
+	
+	if HeatHazeTorus1REF.GetDisabled
+	else 
+		HeatHazeTorus1REF.Disable
+	endif 
+	
+	if HeatHazeTorusCloser1REF.GetDisabled
+	else 
+		HeatHazeTorusCloser1REF.Disable
+	endif 
+	
+	if HeatHazeTorusStrong1REF.GetDisabled
+	else 
+		HeatHazeTorusStrong1REF.Disable
+	endif 
+	
+	;Radiation storm
+	
+	if RainRadStorm1REF.GetDisabled
+	else 
+		RainRadStorm1REF.Disable
+	endif 
+	
+	if RadParticles1REF.GetDisabled
+	else 
+		RadParticles1REF.Disable
+	endif 
+	
+	if Rads1MagREF.GetDisabled
+	else 
+		Rads1MagREF.Disable
+	endif 
+	
+	if Rads2MagREF.GetDisabled
+	else 
+		Rads2MagREF.Disable
+	endif 
+	
+	if Rads3MagREF.GetDisabled
+	
+	else 
+		Rads3MagREF.Disable
+	endif 
+	
+	if Rads4MagREF.GetDisabled
+	else 
+		Rads4MagREF.Disable
+	endif 
+
+	;Rainy weathers 
+	
+	
+	 ;looking down 
+	if RainDOWNDownPour1REF.GetDisabled
+	else 
+		RainDOWNDownPour1REF.Disable
+	endif 
+	
+	if RainDOWNDrizzle1REF.GetDisabled
+	else 
+		RainDOWNDrizzle1REF.Disable
+	endif 
+	
+	if RainDOWNMedium1REF.GetDisabled
+	else 
+		RainDOWNMedium1REF.Disable
+	endif 
+	
+	if RainDOWNThunderStorm1REF.GetDisabled
+	else 
+		RainDOWNThunderStorm1REF.Disable
+	endif 
+	
+	
+		;looking up 
+	if RainUPDownPour1REF.GetDisabled
+	else 
+		RainUPDownPour1REF.Disable
+	endif 
+	
+	if RainUPDrizzle1REF.GetDisabled
+	else 
+		RainUPDrizzle1REF.Disable
+	endif 
+	
+	if RainUPMedium1REF.GetDisabled
+	else 
+		RainUPMedium1REF.Disable
+	endif 
+	
+	if RainUPThunderStorm1REF.GetDisabled
+	else 
+		RainUPThunderStorm1REF.Disable
+	endif 
+	
+		;normal 
+	if RainDownpour1REF.GetDisabled
+	else 
+		RainDownpour1REF.Disable
+	endif 
+	
+	if RainDrizzle1REF.GetDisabled
+	else 
+		RainDrizzle1REF.Disable
+	endif 
+	
+	if RainMedium1REF.GetDisabled
+	else 
+		RainMedium1REF.Disable
+	endif 
+	
+	if RainThunderStorm1REF.GetDisabled
+	else 
+		RainThunderStorm1REF.Disable
+	endif 
+	
+	;Smog 
+	
+	if Smog1REF.GetDisabled
+	else 
+		Smog1REF.Disable
+	endif 
+	
+	if Smog2REF.GetDisabled
+	else 
+		Smog2REF.Disable
+	endif 
+	
+	if Smog3REF.GetDisabled
+	else 
+		Smog3REF.Disable
+	endif 
+	
+	if Smog4REF.GetDisabled
+	else 
+		Smog4REF.Disable
+	endif 
+	
+	if Smog5REF.GetDisabled
+	else 
+		Smog5REF.Disable
+	endif 
+	
+	if Smog6REF.GetDisabled
+	else 
+		Smog6REF.Disable
+	endif 
+	
+	if Smog7REF.GetDisabled
+	else 
+		Smog7REF.Disable
+	endif 
+	
+	if Smog8REF.GetDisabled
+	else 
+		Smog8REF.Disable
+	endif 
+	
+	if Smog9REF.GetDisabled
+	else 
+		Smog9REF.Disable
+	endif 
+	
+	;Snowy weathers 
+	
+	if SnowDrift1REF.GetDisabled
+	else 
+		SnowDrift1REF.Disable
+	endif 
+	
+	if SnowDrift2REF.GetDisabled
+	else 
+		SnowDrift2REF.Disable
+	endif 
+	
+	if SnowHeavy1REF.GetDisabled
+	else 
+		SnowHeavy1REF.Disable
+	endif 
+	
+	if SnowMedium1REF.GetDisabled
+	else 
+		SnowMedium1REF.Disable
+	endif 
+	
+	if SnowLite1REF.GetDisabled
+	else 
+		SnowLite1REF.Disable
+	endif 
+	
+	if SnowVeryLite1REF.GetDisabled
+	else 
+		SnowVeryLite1REF.Disable
+	endif 
+	
+
+	if SnowWhirlwind1REF.GetDisabled
+	else 
+		SnowWhirlwind1REF.Disable
+	endif 
+	
+	;Swamp gas 
+	if SwampGas1REF.GetDisabled
+	else 
+		SwampGas1REF.Disable
+	endif 
+	
+	if SwampGasHazeTorus1REF.GetDisabled
+	else 
+		SwampGasHazeTorus1REF.Disable
+	endif 
+	
+	;Fog 
+	if FogGround1REF.GetDisabled
+	else 
+		FogGround1REF.Disable
+	endif 
+	
+	if FogGround2REF.GetDisabled
+	else 
+		FogGround2REF.Disable
+	endif 
+	
+	;Dunwich fog 
+	
+	if FogDW1REF.GetDisabled
+	else 
+		FogDW1REF.Disable
+	endif 
+	
+	if FogDW2REF.GetDisabled
+	else 
+		FogDW2REF.Disable
+	endif 
+	
+	if FogDW3REF.GetDisabled
+	else 
+		FogDW3REF.Disable
+	endif 
+	
+	if FogDW4REF.GetDisabled
+	else 
+		FogDW4REF.Disable
+	endif 
+	
+	;Outside sounds 
+	if ExtSound1REF.GetDisabled
+	else 
+		ExtSound1REF.Disable
+	endif 
+	
+	if ExtSound2REF.GetDisabled
+	else 
+		ExtSound2REF.Disable
+	endif 
+	
+	if ExtSound3REF.GetDisabled
+	else 
+		ExtSound3REF.Disable
+	endif 
+	
+	if ExtSound4REF.GetDisabled
+	else 
+		ExtSound4REF.Disable
+	endif 
+	
+	if ExtSound5REF.GetDisabled
+	else 
+		ExtSound5REF.Disable
+	endif 
+	
+
+
+	
+printc "RWLE: Exterior Weather REFS Disabled [ExtRedDisableUDF]"
+end

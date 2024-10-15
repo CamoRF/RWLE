@@ -1,0 +1,131 @@
+scn	aaaRWLEPipBoyMenuEVENT
+
+int	iMenuID
+
+begin Function {iMenuID}
+
+if GetIsCurrentWeather MojaveClear1HighSunLightWindVeryLite
+	set RWLEQuest.rWeatherBeforeTravel to MojaveClear1HighSunLightWindVeryLite
+	printc "RWLE: Clear 1 Weather set [Menu click event ran]"
+
+elseif GetIsCurrentWeather MojaveClear2HighSunLightWindLite
+	set RWLEQuest.rWeatherBeforeTravel to MojaveClear2HighSunLightWindLite
+	printc "RWLE: Clear 2 Weather set [Menu click event ran]"
+
+elseif GetIsCurrentWeather MojaveClear3MedSunLightWindMed
+	set RWLEQuest.rWeatherBeforeTravel to MojaveClear3MedSunLightWindMed
+	printc "RWLE: Clear 3 Weather set [Menu click event ran]"
+
+elseif GetIsCurrentWeather MojaveClear4MedSunLightWindHigh
+	set RWLEQuest.rWeatherBeforeTravel to MojaveClear4MedSunLightWindHigh
+	printc "RWLE: Clear 4 Weather set [Menu click event ran]"
+
+elseif GetIsCurrentWeather MojaveClear5LowSunLightWindHigh
+	set RWLEQuest.rWeatherBeforeTravel to MojaveClear5LowSunLightWindHigh
+	printc "RWLE: Clear 5 Weather set [Menu click event ran]"
+
+elseif GetIsCurrentWeather MojaveClear6LowSunLightWindVeryLite
+	set RWLEQuest.rWeatherBeforeTravel to MojaveClear6LowSunLightWindVeryLite
+	printc "RWLE: Clear 6 Weather set [Menu click event ran]"
+
+elseif GetIsCurrentWeather MojaveDistBlurWindLite
+	set RWLEQuest.rWeatherBeforeTravel to MojaveDistBlurWindLite
+	printc "RWLE: Dist blur Weather set [Menu click event ran]"
+		
+elseif GetIsCurrentWeather MojaveDryLightningWindExtreme
+	set RWLEQuest.rWeatherBeforeTravel to MojaveDryLightningWindExtreme
+	printc "RWLE: Dry lightning blur Weather set [Menu click event ran]"
+	
+elseif GetIsCurrentWeather MojaveDustWhirlwindsWindExtreme
+	set RWLEQuest.rWeatherBeforeTravel to MojaveDustWhirlwindsWindExtreme
+	printc "RWLE: Dust whirlwind Weather set [Menu click event ran]"
+
+elseif GetIsCurrentWeather MojaveDustWindVeryLite
+	set RWLEQuest.rWeatherBeforeTravel to MojaveDustWindVeryLite
+	printc "RWLE: Dust Weather set [Menu click event ran]"
+
+elseif GetIsCurrentWeather MojaveHazyMedSunLightWindVeryLite
+	set RWLEQuest.rWeatherBeforeTravel to MojaveHazyMedSunLightWindVeryLite
+	printc "RWLE: Hazy Weather set [Menu click event ran]"
+
+elseif GetIsCurrentWeather MojaveHeatHazeCloseHighSunLightWindLite
+	set RWLEQuest.rWeatherBeforeTravel to MojaveDustWindVeryLite
+	printc "RWLE: Heathaze close Weather set [Menu click event ran]"
+
+elseif GetIsCurrentWeather MojaveHeatHazeDistanceHighSunLightWindLite
+	set RWLEQuest.rWeatherBeforeTravel to MojaveHeatHazeDistanceHighSunLightWindLite
+	printc "RWLE: Heathaze distance Weather set [Menu click event ran]"
+
+elseif GetIsCurrentWeather MojaveHeatHazeHighSunLightWindLite
+	set RWLEQuest.rWeatherBeforeTravel to MojaveHeatHazeHighSunLightWindLite
+	printc "RWLE: Heathaze standard Weather set [Menu click event ran]"
+
+elseif GetIsCurrentWeather MojaveHeatHazeStrongHighSunLightWindLite
+	set RWLEQuest.rWeatherBeforeTravel to MojaveHeatHazeStrongHighSunLightWindLite
+	printc "RWLE: Heathaze strong Weather set [Menu click event ran]"
+
+elseif GetIsCurrentWeather MojaveNoFog1HighSunLightVeryLiteWind
+	set RWLEQuest.rWeatherBeforeTravel to MojaveNoFog1HighSunLightVeryLiteWind
+	printc "RWLE: No fog Weather set [Menu click event ran]"
+
+elseif GetIsCurrentWeather MojaveOvercastWindExtreme
+	set RWLEQuest.rWeatherBeforeTravel to MojaveOvercastWindExtreme
+	printc "RWLE: Overcast Weather set [Menu click event ran]"
+
+elseif GetIsCurrentWeather MojaveOvercast2WindVeryLite
+	set RWLEQuest.rWeatherBeforeTravel to MojaveOvercast2WindVeryLite
+	printc "RWLE: Overcast 2 Weather set [Menu click event ran]"
+	
+elseif GetIsCurrentWeather MojaveOvercast3WindVeryLite
+	set RWLEQuest.rWeatherBeforeTravel to MojaveOvercast3WindVeryLite
+	printc "RWLE: Overcast 3 Weather set [Menu click event ran]"
+	
+elseif GetIsCurrentWeather MojavePartlyCloudy1LowSunLightWindExtreme
+	set RWLEQuest.rWeatherBeforeTravel to MojavePartlyCloudy1LowSunLightWindExtreme
+	printc "RWLE: Partly cloudy 1 Weather set [Menu click event ran]"
+	
+elseif GetIsCurrentWeather MojavePartlyCloudy2LowSunLightWindExtreme
+	set RWLEQuest.rWeatherBeforeTravel to MojavePartlyCloudy2LowSunLightWindExtreme
+	printc "RWLE: Partly cloudy 2 Weather set [Menu click event ran]"
+	
+elseif GetIsCurrentWeather MojavePartlyCloudy3LowSunLightWindVeryLite
+	set RWLEQuest.rWeatherBeforeTravel to MojavePartlyCloudy3LowSunLightWindVeryLite
+	printc "RWLE: Partly cloudy 3 Weather set [Menu click event ran]"
+	
+elseif GetIsCurrentWeather MojavePartlyCloudy4LowSunLightWindMed
+	set RWLEQuest.rWeatherBeforeTravel to MojavePartlyCloudy4LowSunLightWindMed
+	printc "RWLE: Partly cloudy 4 Weather set [Menu click event ran]"
+	
+elseif GetIsCurrentWeather MojaveRainDownpourWindExtreme
+	set RWLEQuest.rWeatherBeforeTravel to MojaveRainDownpourWindExtreme
+	printc "RWLE: Downpour Weather set [Menu click event ran]"
+	
+elseif GetIsCurrentWeather MojaveRainDrizzleWindVeryLite
+	set RWLEQuest.rWeatherBeforeTravel to MojaveRainDrizzleWindVeryLite
+	printc "RWLE: Drizzle weather set [Menu click event ran]"
+	
+elseif GetIsCurrentWeather MojaveRainMediumWindMed
+	set RWLEQuest.rWeatherBeforeTravel to MojaveRainMediumWindMed
+	printc "RWLE: Rain medium Weather set [Menu click event ran]"
+
+elseif GetIsCurrentWeather MojaveRainThunderStormWindExtreme
+	set RWLEQuest.rWeatherBeforeTravel to MojaveRainThunderStormWindExtreme
+	printc "RWLE: Rain thunderstorm Weather set [Menu click event ran]"
+
+elseif GetIsCurrentWeather MojaveSandStormWindExtreme
+	set RWLEQuest.rWeatherBeforeTravel to MojaveSandStormWindExtreme
+	printc "RWLE: Sandstorm Weather set [Menu click event ran]"
+	
+elseif GetIsCurrentWeather WastelandRadStormWindExtreme || GetIsCurrentWeather WastelandRadStormWindExtremeNoFadeIn
+	set RWLEQUEST.rWeatherBeforeTravel to WastelandRadStormWindExtremeNoFadeIn
+	printc "RWLE: Radstorm Weather set [Menu click event ran]"
+	
+endif 
+
+;set RWLEQuest.rWeatherBeforeTravel to GetCurrentWeather 
+if iPipboyDataMenuRWLE == 0 
+	set iPipboyDataMenuRWLE to 1 
+endif 
+printc "RWLE: Menu click event ran, weather set [1]"
+
+end

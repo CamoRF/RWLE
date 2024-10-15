@@ -1,0 +1,141 @@
+scn aaaRWLEWeatherVariablesUDF
+
+ref rCurrentWeather
+
+Begin function { rCurrentWeather }   
+		
+if rCurrentWeather == MojaveRainDownpourWindExtreme || rCurrentWeather == CapitalWastelandRainDownpourWindExtreme
+	set RWLEQuest.iWeatherType to 1 
+	printc "RWLE: Current weather is rain downpour [WeatherVariablesUDF]"
+		
+elseif rCurrentWeather == MojaveRainThunderStormWindExtreme || rCurrentWeather == CapitalWastelandRainThunderStormWindExtreme
+	set RWLEQuest.iWeatherType to 2
+	printc "RWLE: Current weather is rain thunderstorm [WeatherVariablesUDF]"
+		
+elseif rCurrentWeather == MojaveRainMediumWindMed || rCurrentWeather == CapitalWastelandRainMediumWindMed 
+	set RWLEQuest.iWeatherType to 3		
+	printc "RWLE: Current weather is medium rain [WeatherVariablesUDF]"
+		
+elseif rCurrentWeather == MojaveRainDrizzleWindVeryLite || rCurrentWeather == CapitalWastelandRainDrizzleWindVeryLite
+	set RWLEQuest.iWeatherType to 4
+	printc "RWLE: Current weather is drizzle [WeatherVariablesUDF]"
+		
+elseif rCurrentWeather == WastelandBlizzardWindExtreme || rCurrentWeather ==  WastelandBlizzardWhiteOutWindExtreme 
+	set RWLEQuest.iWeatherType to 5			
+	printc "RWLE: Current weather is blizzard [WeatherVariablesUDF]"
+			
+elseif rCurrentWeather == WastelandSnowHeavyWindExtreme
+	set RWLEQuest.iWeatherType to 6			
+	printc "RWLE: Current weather is snow heavy [WeatherVariablesUDF]"	
+		
+elseif rCurrentWeather == WastelandSnowMediumWindHigh
+	set RWLEQuest.iWeatherType to 7	
+	printc "RWLE: Current weather is snow medium [WeatherVariablesUDF]"
+		
+elseif rCurrentWeather == WastelandSnowLiteWindMed
+	set RWLEQuest.iWeatherType to 8 
+	printc "RWLE: Current weather is snow lite [WeatherVariablesUDF]"
+			
+elseif rCurrentWeather == WastelandSnowVeryLiteWindVeryLite
+	set RWLEQuest.iWeatherType to 9
+	printc "RWLE: Current weather is snow very lite [WeatherVariablesUDF]"
+		
+elseif rCurrentWeather == ThePittAshFallWindLite
+	set RWLEQuest.iWeatherType to 10
+	printc "RWLE: Current weather is standard ashfall [WeatherVariablesUDF]"
+		
+elseif rCurrentWeather == ThePittAshFallCindersOrangeWindLite || rCurrentWeather == ThePittAshFallCindersWindLite
+	set RWLEQuest.iWeatherType to 11
+	printc "RWLE: Current weather is ashfall cinders [WeatherVariablesUDF]"
+			
+elseif rCurrentWeather == ThePittAshFallCindersBrightWindLite
+	set RWLEQuest.iWeatherType to 12
+	printc "RWLE: Current weather is ashfall cinders bright [WeatherVariablesUDF]"
+		
+elseif rCurrentWeather == ThePittAshFallStrongOrangeWindLite || rCurrentWeather == ThePittAshFallStrongWindLite
+	set RWLEQuest.iWeatherType to 13
+	printc "RWLE: Current weather is orange strong ashfall [WeatherVariablesUDF]"
+	
+elseif rCurrentWeather == MojaveSandStormWindExtreme 
+ 	set RWLEQuest.iWeatherType to 14
+	printc "RWLE: Current weather is Mojave sandstorm [WeatherVariablesUDF]"
+		
+elseif rCurrentWeather == CapitalWastelandSandStormWindExtreme
+	set RWLEQuest.iWeatherType to 15
+	printc "RWLE: Current weather is DC Sandstorm [WeatherVariablesUDF]"
+		
+elseif rCurrentWeather == MojaveHeatHazeHighSunLightWindLite
+	set RWLEQuest.iWeatherType to 16
+	printc "RWLE: Current weather is standard heat haze [WeatherVariablesUDF]"
+		
+elseif rCurrentWeather == MojaveHeatHazeStrongHighSunLightWindLite
+	set RWLEQuest.iWeatherType to 17
+	printc "RWLE: Current weather is heat haze strong [WeatherVariablesUDF]"
+		
+elseif rCurrentWeather == MojaveHeatHazeDistanceHighSunLightWindLite  || rCurrentWeather == CapitalWastelandHeatHazeDistanceHighSunLightWindLite
+	set RWLEQuest.iWeatherType to 18
+	printc "RWLE: Current weather is distant heat haze [WeatherVariablesUDF]"
+			
+elseif rCurrentWeather == MojaveHeatHazeCloseHighSunLightWindLite
+	set RWLEQuest.iWeatherType to 19
+	printc "RWLE: Current weather is close heat haze [WeatherVariablesUDF]"
+		
+elseif rCurrentWeather == DWFoggy 
+	set RWLEQuest.iWeatherType to 20 
+	printc "RWLE: Current weather is Dunwich Fog [WeatherVariablesUDF]"
+			
+elseif rCurrentWeather == ThePittSmogParticlesWindMed
+	set RWLEQuest.iWeatherType to 21 
+	printc "RWLE: Current weather is smog particles [WeatherVariablesUDF]"
+			
+elseif rCurrentWeather == PointLookoutSwampGasWindMed
+	set RWLEQuest.iWeatherType to 22
+	printc "RWLE: Current weather is PL swamp gas [WeatherVariablesUDF]"	
+		
+elseif rCurrentWeather == WastelandRadStormWindExtreme 
+	set RWLEQuest.iWeatherType to 23
+	printc "RWLE: Current weather is radiation storm [WeatherVariablesUDF]"
+	
+elseif ( ListGetFormIndex RWLEVeryLiteWindWeathers rCurrentWeather > 0 )
+	set RWLEQuest.iWeatherType to 24
+	printc "RWLE: Current weather is very lite wind [WeatherVariablesUDF]"	
+		
+elseif ( ListGetFormIndex RWLELiteWindWeathers rCurrentWeather > 0 )
+	set RWLEQuest.iWeatherType to 25 
+	printc "RWLE: Current weather is lite wind [WeatherVariablesUDF]"
+		
+elseif ( ListGetFormIndex RWLEMedWindWeathers rCurrentWeather > 0 )
+	set RWLEQuest.iWeatherType to 26 
+	printc "RWLE: Current weather is med wind [WeatherVariablesUDF]"
+		
+elseif ( ListGetFormIndex RWLEHighWindWeathers rCurrentWeather > 0 )
+	set RWLEQuest.iWeatherType to 27
+	printc "RWLE: Current weather is high wind [WeatherVariablesUDF]"
+		
+elseif ( ListGetFormIndex RWLEExtremeWindWeathersNV rCurrentWeather > 0 )
+	set RWLEQuest.iWeatherType to 28
+	printc "RWLE: Current weather is extreme mojave wind with particles  [WeatherVariablesUDF]"
+	
+elseif ( ListGetFormIndex RWLEExtremeWindWeathersDC rCurrentWeather > 0 )
+	set RWLEQuest.iWeatherType to 29
+	printc "RWLE: Current weather is extreme DC wind with particles  [WeatherVariablesUDF]"	
+		
+elseif rCurrentWeather == CapitalWastelandFoggyLiteWindVeryLite	
+	set RWLEQuest.iWeatherType to 30 
+	printc "RWLE: Current weather is lite fog [WeatherVariablesUDF]"
+
+elseif rCurrentWeather == CapitalWastelandFoggyMedWindVeryLite	
+	set RWLEQuest.iWeatherType to 31 	
+	printc "RWLE: Current weather is med fog [WeatherVariablesUDF]"
+		
+elseif rCurrentWeather == CapitalWastelandFoggyStrongWindVeryLite	
+	set RWLEQuest.iWeatherType to 32 	
+	printc "RWLE: Current weather is strong fog [WeatherVariablesUDF]"		
+
+elseif rCurrentWeather == WastelandRadStormWindExtremeNoFadeIn
+	set RWLEQuest.iWeatherType to 33
+	printc "RWLE: Current weather is radstorm no fade in [WeatherVariablesUDF]"	
+else
+	set RWLEQuest.iWeatherType to 0
+endif	  
+end

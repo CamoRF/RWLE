@@ -1,0 +1,316 @@
+scn aaaRWLEWindUDF 
+
+ref rCurrentWeather
+int iGrassLightingEnabled
+
+float fGetWeatherWind
+float fWeatherClass 
+
+begin function { rCurrentWeather, iGrassLightingEnabled } 	  
+	set fGetWeatherWind to GetWeatherTraitNumeric rCurrentWeather 4
+	set fWeatherClass to GetWeatherTraitNumeric rCurrentWeather 13  
+	
+	;Very Lite Wind 
+	if fWeatherWind >= 0.15 && fWeatherWind < 0.25 
+		SetGrassTraitNumeric GrassWasteland01 8 35
+		SetGrassTraitNumeric GrassWasteland02 8 35
+		SetGrassTraitNumeric GrassWasteland03 8 35
+		SetGrassTraitNumeric GrassWasteland04 8 35
+		SetGrassTraitNumeric GrassWasteland05 8 35
+		SetGrassTraitNumeric GrassWasteland06 8 35 
+		SetGrassTraitNumeric GrassWasteland07 8 35
+		SetGrassTraitNumeric GrassLawn01 8 35
+		SetGrassTraitNumeric GrassOasis01 8 35
+		SetGrassTraitNumeric GrassOasis02NV 8 35
+		SetGrassTraitNumeric NVGolfGrass01 8 35
+		SetGrassTraitNumeric NVGolfGrass02 8 35
+		SetGrassTraitNumeric GrassWasteland05nv 8 35
+		SetGrassTraitNumeric GrassWasteland02b 8 35
+		SetGrassTraitNumeric GrassWasteland05STRIP 8 35
+		SetGrassTraitNumeric GrassWasteland04STRIP 8 35
+		SetGrassTraitNumeric GrassWasteland07STRIP 8 35
+		SetGrassTraitNumeric GrassWastelandGreen01 8 35
+		SetGrassTraitNumeric GrassWastelandGreen02 8 35
+		SetGrassTraitNumeric GrassWastelandGreen03 8 35
+		SetGrassTraitNumeric NVDLC02GrassWastelandGreen01 8 35
+		SetGrassTraitNumeric NVDLC02GrassWastelandGreen02 8 35
+		SetGrassTraitNumeric NVDLC03plasticgrass 8 35
+		SetGrassTraitNumeric DLC04Grass01 8 35
+		SetGrassTraitNumeric DLC04Grass02 8 35
+		SetGrassTraitNumeric DLC04Grass03 8 35
+		SetGrassTraitNumeric DLC04Grass04 8 35
+		SetGrassTraitNumeric DLC04Grass05 8 35
+		SetGrassTraitNumeric DLC04Grass02a 8 35
+		SetGrassTraitNumeric DLC04Grass03a 8 35 
+		printc "RWLE: Weather is very lite wind [WindUDF]"
+	;Medium Wind 
+	elseif fWeatherWind >= 0.25 && fWeatherWind < 0.35 
+		SetGrassTraitNumeric GrassWasteland01 8 40  
+		SetGrassTraitNumeric GrassWasteland02 8 40
+		SetGrassTraitNumeric GrassWasteland03 8 40
+		SetGrassTraitNumeric GrassWasteland04 8 40
+		SetGrassTraitNumeric GrassWasteland05 8 40
+		SetGrassTraitNumeric GrassWasteland06 8 40
+		SetGrassTraitNumeric GrassWasteland07 8 40 
+		SetGrassTraitNumeric GrassLawn01 8 40
+		SetGrassTraitNumeric GrassOasis01 8 40
+		SetGrassTraitNumeric GrassOasis02NV 8 40
+		SetGrassTraitNumeric NVGolfGrass01 8 40
+		SetGrassTraitNumeric NVGolfGrass02 8 40
+		SetGrassTraitNumeric GrassWasteland05nv 8 40
+		SetGrassTraitNumeric GrassWasteland02b 8 40
+		SetGrassTraitNumeric GrassWasteland05STRIP 8 40 
+		SetGrassTraitNumeric GrassWasteland04STRIP 8 40
+		SetGrassTraitNumeric GrassWasteland07STRIP 8 40
+		SetGrassTraitNumeric GrassWastelandGreen01 8 40
+		SetGrassTraitNumeric GrassWastelandGreen02 8 40
+		SetGrassTraitNumeric GrassWastelandGreen03 8 40
+		SetGrassTraitNumeric NVDLC02GrassWastelandGreen01 8 40
+		SetGrassTraitNumeric NVDLC02GrassWastelandGreen02 8 40
+		SetGrassTraitNumeric NVDLC03plasticgrass 8 40
+		SetGrassTraitNumeric DLC04Grass01 8 40
+		SetGrassTraitNumeric DLC04Grass02 8 40
+		SetGrassTraitNumeric DLC04Grass03 8 40
+		SetGrassTraitNumeric DLC04Grass04 8 40
+		SetGrassTraitNumeric DLC04Grass05 8 40
+		SetGrassTraitNumeric DLC04Grass02a 8 40
+		SetGrassTraitNumeric DLC04Grass03a 8 40
+		printc "RWLE: Weather is medium wind [WindUDF]"
+	;High Wind 
+	elseif fWeatherWind >= 0.35 && fWeatherWind < 0.50 
+		SetGrassTraitNumeric GrassWasteland01 8 65
+		SetGrassTraitNumeric GrassWasteland02 8 65
+		SetGrassTraitNumeric GrassWasteland03 8 65
+		SetGrassTraitNumeric GrassWasteland04 8 65
+		SetGrassTraitNumeric GrassWasteland05 8 65
+		SetGrassTraitNumeric GrassWasteland06 8 65
+		SetGrassTraitNumeric GrassWasteland07 8 65
+		SetGrassTraitNumeric GrassLawn01 8 65
+		SetGrassTraitNumeric GrassOasis01 8 65
+		SetGrassTraitNumeric GrassOasis02NV 8 65
+		SetGrassTraitNumeric NVGolfGrass01 8 65
+		SetGrassTraitNumeric NVGolfGrass02 8 65
+		SetGrassTraitNumeric GrassWasteland05nv 8 65
+		SetGrassTraitNumeric GrassWasteland02b 8 65
+		SetGrassTraitNumeric GrassWasteland05STRIP 8 65
+		SetGrassTraitNumeric GrassWasteland04STRIP 8 65
+		SetGrassTraitNumeric GrassWasteland07STRIP 8 65
+		SetGrassTraitNumeric GrassWastelandGreen01 8 65
+		SetGrassTraitNumeric GrassWastelandGreen02 8 65
+		SetGrassTraitNumeric GrassWastelandGreen03 8 65
+		SetGrassTraitNumeric NVDLC02GrassWastelandGreen01 8 65
+		SetGrassTraitNumeric NVDLC02GrassWastelandGreen02 8 65
+		SetGrassTraitNumeric NVDLC03plasticgrass 8 65
+		SetGrassTraitNumeric DLC04Grass01 8 65
+		SetGrassTraitNumeric DLC04Grass02 8 65
+		SetGrassTraitNumeric DLC04Grass03 8 65
+		SetGrassTraitNumeric DLC04Grass04 8 65
+		SetGrassTraitNumeric DLC04Grass05 8 65
+		SetGrassTraitNumeric DLC04Grass02a 8 65
+		SetGrassTraitNumeric DLC04Grass03a 8 65
+		printc "RWLE: Weather is high wind [WindUDF]"
+	;Extreme Wind 
+	elseif fWeatherWind >= 0.50 							;Extreme Wind
+		SetGrassTraitNumeric GrassWasteland01 8 85
+		SetGrassTraitNumeric GrassWasteland02 8 85
+		SetGrassTraitNumeric GrassWasteland03 8 85
+		SetGrassTraitNumeric GrassWasteland04 8 85
+		SetGrassTraitNumeric GrassWasteland05 8 85
+		SetGrassTraitNumeric GrassWasteland06 8 85
+		SetGrassTraitNumeric GrassWasteland07 8 85
+		SetGrassTraitNumeric GrassLawn01 8 85
+		SetGrassTraitNumeric GrassOasis01 8 85
+		SetGrassTraitNumeric GrassOasis02NV 8 85
+		SetGrassTraitNumeric NVGolfGrass01 8 85
+		SetGrassTraitNumeric NVGolfGrass02 8 85
+		SetGrassTraitNumeric GrassWasteland05nv 8 85
+		SetGrassTraitNumeric GrassWasteland02b 8 85
+		SetGrassTraitNumeric GrassWasteland05STRIP 8 85
+		SetGrassTraitNumeric GrassWasteland04STRIP 8 85
+		SetGrassTraitNumeric GrassWasteland07STRIP 8 85
+		SetGrassTraitNumeric GrassWastelandGreen01 8 85
+		SetGrassTraitNumeric GrassWastelandGreen02 8 85
+		SetGrassTraitNumeric GrassWastelandGreen03 8 85
+		SetGrassTraitNumeric NVDLC02GrassWastelandGreen01 8 85
+		SetGrassTraitNumeric NVDLC02GrassWastelandGreen02 8 85
+		SetGrassTraitNumeric NVDLC03plasticgrass 8 85
+		SetGrassTraitNumeric DLC04Grass01 8 85
+		SetGrassTraitNumeric DLC04Grass02 8 85
+		SetGrassTraitNumeric DLC04Grass03 8 85
+		SetGrassTraitNumeric DLC04Grass04 8 85
+		SetGrassTraitNumeric DLC04Grass05 8 85
+		SetGrassTraitNumeric DLC04Grass02a 8 85
+		SetGrassTraitNumeric DLC04Grass03a 8 85
+		printc "RWLE: Weather is extreme wind [WindUDF]"
+	endif
+	;Enable/disable grass lighting according to weather class
+	if iGrassLightingEnabled
+		if fWeatherClass == 0
+			;Class none
+			SetGrassTraitNumeric GrassWasteland01 9 1  
+			SetGrassTraitNumeric GrassWasteland02 9 1 
+			SetGrassTraitNumeric GrassWasteland03 9 1 
+			SetGrassTraitNumeric GrassWasteland04 9 1 
+			SetGrassTraitNumeric GrassWasteland05 9 1 
+			SetGrassTraitNumeric GrassWasteland06 9 1 
+			SetGrassTraitNumeric GrassWasteland07 9 1 
+			SetGrassTraitNumeric GrassLawn01 9 1 
+			SetGrassTraitNumeric GrassOasis01 9 1 
+			SetGrassTraitNumeric GrassOasis02NV 9 1 
+			SetGrassTraitNumeric NVGolfGrass01 9 1 
+			SetGrassTraitNumeric NVGolfGrass02 9 1 
+			SetGrassTraitNumeric GrassWasteland05nv 9 1  
+			SetGrassTraitNumeric GrassWasteland02b 9 1 
+			SetGrassTraitNumeric GrassWasteland05STRIP 9 1 
+			SetGrassTraitNumeric GrassWasteland04STRIP 9 1 
+			SetGrassTraitNumeric GrassWasteland07STRIP 9 1 
+			SetGrassTraitNumeric GrassWastelandGreen01 9 1 
+			SetGrassTraitNumeric GrassWastelandGreen02 9 1 
+			SetGrassTraitNumeric GrassWastelandGreen03 9 1 
+			SetGrassTraitNumeric NVDLC02GrassWastelandGreen01 9 1
+			SetGrassTraitNumeric NVDLC02GrassWastelandGreen02 9 1
+			SetGrassTraitNumeric NVDLC03plasticgrass 9 1
+			SetGrassTraitNumeric DLC04Grass01 9 1
+			SetGrassTraitNumeric DLC04Grass02 9 1
+			SetGrassTraitNumeric DLC04Grass03 9 1
+			SetGrassTraitNumeric DLC04Grass04 9 1
+			SetGrassTraitNumeric DLC04Grass05 9 1 
+			SetGrassTraitNumeric DLC04Grass02a 9 1 
+			SetGrassTraitNumeric DLC04Grass03a 9 1 
+			printc "RWLE: grass lighting is on [WindUDF]"
+		elseif fWeatherClass == 1
+			;Class pleasant 
+			SetGrassTraitNumeric GrassWasteland01 9 1 
+			SetGrassTraitNumeric GrassWasteland02 9 1 
+			SetGrassTraitNumeric GrassWasteland03 9 1 
+			SetGrassTraitNumeric GrassWasteland04 9 1 
+			SetGrassTraitNumeric GrassWasteland05 9 1 
+			SetGrassTraitNumeric GrassWasteland06 9 1 
+			SetGrassTraitNumeric GrassWasteland07 9 1 
+			SetGrassTraitNumeric GrassLawn01 9 1 
+			SetGrassTraitNumeric GrassOasis01 9 1 
+			SetGrassTraitNumeric GrassOasis02NV 9 1 
+			SetGrassTraitNumeric NVGolfGrass01 9 1 
+			SetGrassTraitNumeric NVGolfGrass02 9 1 
+			SetGrassTraitNumeric GrassWasteland05nv 9 1 
+			SetGrassTraitNumeric GrassWasteland02b 9 1 
+			SetGrassTraitNumeric GrassWasteland05STRIP 9 1 
+			SetGrassTraitNumeric GrassWasteland04STRIP 9 1 
+			SetGrassTraitNumeric GrassWasteland07STRIP 9 1 
+			SetGrassTraitNumeric GrassWastelandGreen01 9 1 
+			SetGrassTraitNumeric GrassWastelandGreen02 9 1 
+			SetGrassTraitNumeric GrassWastelandGreen03 9 1 
+			SetGrassTraitNumeric NVDLC02GrassWastelandGreen01 9 1
+			SetGrassTraitNumeric NVDLC02GrassWastelandGreen02 9 1
+			SetGrassTraitNumeric NVDLC03plasticgrass 9 1
+			SetGrassTraitNumeric DLC04Grass01 9 1
+			SetGrassTraitNumeric DLC04Grass02 9 1
+			SetGrassTraitNumeric DLC04Grass03 9 1
+			SetGrassTraitNumeric DLC04Grass04 9 1
+			SetGrassTraitNumeric DLC04Grass05 9 1 
+			SetGrassTraitNumeric DLC04Grass02a 9 1 
+			SetGrassTraitNumeric DLC04Grass03a 9 1 
+			printc "RWLE: grass lighting is on [WindUDF]"
+		elseif fWeatherClass == 2
+			;class cloudy
+			SetGrassTraitNumeric GrassWasteland01 9 0 
+			SetGrassTraitNumeric GrassWasteland02 9 0 
+			SetGrassTraitNumeric GrassWasteland03 9 0 
+			SetGrassTraitNumeric GrassWasteland04 9 0 
+			SetGrassTraitNumeric GrassWasteland05 9 0 
+			SetGrassTraitNumeric GrassWasteland06 9 0 
+			SetGrassTraitNumeric GrassWasteland07 9 0 
+			SetGrassTraitNumeric GrassLawn01 9 0 
+			SetGrassTraitNumeric GrassOasis01 9 0 
+			SetGrassTraitNumeric GrassOasis02NV 9 0 
+			SetGrassTraitNumeric NVGolfGrass01 9 0 
+			SetGrassTraitNumeric NVGolfGrass02 9 0 
+			SetGrassTraitNumeric GrassWasteland05nv 9 0 
+			SetGrassTraitNumeric GrassWasteland02b 9 0 
+			SetGrassTraitNumeric GrassWasteland05STRIP 9 0 
+			SetGrassTraitNumeric GrassWasteland04STRIP 9 0 
+			SetGrassTraitNumeric GrassWasteland07STRIP 9 0 
+			SetGrassTraitNumeric GrassWastelandGreen01 9 0 
+			SetGrassTraitNumeric GrassWastelandGreen02 9 0 
+			SetGrassTraitNumeric GrassWastelandGreen03 9 0 
+			SetGrassTraitNumeric NVDLC02GrassWastelandGreen01 9 0
+			SetGrassTraitNumeric NVDLC02GrassWastelandGreen02 9 0
+			SetGrassTraitNumeric NVDLC03plasticgrass 9 0
+			SetGrassTraitNumeric DLC04Grass01 9 0
+			SetGrassTraitNumeric DLC04Grass02 9 0
+			SetGrassTraitNumeric DLC04Grass03 9 0
+			SetGrassTraitNumeric DLC04Grass04 9 0
+			SetGrassTraitNumeric DLC04Grass05 9 0
+			SetGrassTraitNumeric DLC04Grass02a 9 0
+			SetGrassTraitNumeric DLC04Grass03a 9 0
+			printc "RWLE: grass lighting is off [WindUDF]"
+		elseif fWeatherClass == 4
+			;class rainy
+			SetGrassTraitNumeric GrassWasteland01 9 1 
+			SetGrassTraitNumeric GrassWasteland02 9 0 
+			SetGrassTraitNumeric GrassWasteland03 9 0 
+			SetGrassTraitNumeric GrassWasteland04 9 0 
+			SetGrassTraitNumeric GrassWasteland05 9 0 
+			SetGrassTraitNumeric GrassWasteland06 9 0 
+			SetGrassTraitNumeric GrassWasteland07 9 0 
+			SetGrassTraitNumeric GrassLawn01 9 0 
+			SetGrassTraitNumeric GrassOasis01 9 0 
+			SetGrassTraitNumeric GrassOasis02NV 9 0 
+			SetGrassTraitNumeric NVGolfGrass01 9 0 
+			SetGrassTraitNumeric NVGolfGrass02 9 0 
+			SetGrassTraitNumeric GrassWasteland05nv 9 0 
+			SetGrassTraitNumeric GrassWasteland02b 9 0 
+			SetGrassTraitNumeric GrassWasteland05STRIP 9 0 
+			SetGrassTraitNumeric GrassWasteland04STRIP 9 0 
+			SetGrassTraitNumeric GrassWasteland07STRIP 9 0 
+			SetGrassTraitNumeric GrassWastelandGreen01 9 0 
+			SetGrassTraitNumeric GrassWastelandGreen02 9 0 
+			SetGrassTraitNumeric GrassWastelandGreen03 9 0 
+			SetGrassTraitNumeric NVDLC02GrassWastelandGreen01 9 0
+			SetGrassTraitNumeric NVDLC02GrassWastelandGreen02 9 0
+			SetGrassTraitNumeric NVDLC03plasticgrass 9 0
+			SetGrassTraitNumeric DLC04Grass01 9 0
+			SetGrassTraitNumeric DLC04Grass02 9 0
+			SetGrassTraitNumeric DLC04Grass03 9 0
+			SetGrassTraitNumeric DLC04Grass04 9 0
+			SetGrassTraitNumeric DLC04Grass05 9 0
+			SetGrassTraitNumeric DLC04Grass02a 9 0
+			SetGrassTraitNumeric DLC04Grass03a 9 0
+			printc "RWLE: grass lighting is off [WindUDF]"
+		elseif fWeatherClass == 8
+			;class snow
+			SetGrassTraitNumeric GrassWasteland01 9 0 
+			SetGrassTraitNumeric GrassWasteland02 9 0 
+			SetGrassTraitNumeric GrassWasteland03 9 0 
+			SetGrassTraitNumeric GrassWasteland04 9 0 
+			SetGrassTraitNumeric GrassWasteland05 9 0 
+			SetGrassTraitNumeric GrassWasteland06 9 0 
+			SetGrassTraitNumeric GrassWasteland07 9 0 
+			SetGrassTraitNumeric GrassLawn01 9 0 
+			SetGrassTraitNumeric GrassOasis01 9 0 
+			SetGrassTraitNumeric GrassOasis02NV 9 0 
+			SetGrassTraitNumeric NVGolfGrass01 9 0 
+			SetGrassTraitNumeric NVGolfGrass02 9 0 
+			SetGrassTraitNumeric GrassWasteland05nv 9 0 
+			SetGrassTraitNumeric GrassWasteland02b 9 0 
+			SetGrassTraitNumeric GrassWasteland05STRIP 9 0 
+			SetGrassTraitNumeric GrassWasteland04STRIP 9 0 
+			SetGrassTraitNumeric GrassWasteland07STRIP 9 0 
+			SetGrassTraitNumeric GrassWastelandGreen01 9 0 
+			SetGrassTraitNumeric GrassWastelandGreen02 9 0 
+			SetGrassTraitNumeric GrassWastelandGreen03 9 0 
+			SetGrassTraitNumeric NVDLC02GrassWastelandGreen01 9 0
+			SetGrassTraitNumeric NVDLC02GrassWastelandGreen02 9 0
+			SetGrassTraitNumeric NVDLC03plasticgrass 9 0
+			SetGrassTraitNumeric DLC04Grass01 9 0
+			SetGrassTraitNumeric DLC04Grass02 9 0
+			SetGrassTraitNumeric DLC04Grass03 9 0
+			SetGrassTraitNumeric DLC04Grass04 9 0
+			SetGrassTraitNumeric DLC04Grass05 9 0
+			SetGrassTraitNumeric DLC04Grass02a 9 0
+			SetGrassTraitNumeric DLC04Grass03a 9 0
+			printc "RWLE: grass lighting is off [WindUDF]" 
+		endif
+	endif 
+;printc "RWLE Debug: Wind function ran"
+end

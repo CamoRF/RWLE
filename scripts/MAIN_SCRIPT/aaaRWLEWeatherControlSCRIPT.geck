@@ -1,0 +1,1911 @@
+scn aaaRWLEWeatherControlSCRIPT
+
+;Guts 
+ref rPreviousCell  
+ref rPreviousWorldspace 
+ref rPreviousWeather  
+ref rPreviousClimate
+
+ref rCurrentCell
+ref rCurrentWorldspace
+ref rCurrentClimate 
+ref rCurrentWeather   
+
+int iWeatherFadedIn 
+int iWeatherType 
+int iWeatherChanged
+int iWeatherSetup
+int iSoundRefsDisabled
+int iWeatherRefsDisabled
+
+int iMoveCell
+int iMoveSoundsOnce
+int iMoveSound
+int iMoveClimate
+int iMoveWorldspace
+int iReleaseLocationalWeather
+
+int iPlayerInside
+int iPlayerSwimming
+int iSwimHeightNeedsChanging
+int iGrassLightingEnabled
+
+;Dynamic day lengths
+int iSetClimateOnce
+int iMonthChanged
+int iImageSpaceCanChange
+int iImageSpaceChanged
+int iSunsetTimeCanChange
+int iSunsetTimeChanged
+
+;Fog fade in 
+int DayNearCurrentFog 
+int DayFarCurrentFog 
+int NightNearCurrentFog
+int NightFarCurrentFog
+
+int iTurnOffFogFadeNear
+int iTurnOffFogFadeFar
+
+int iNVSEV 
+int iNVSEB
+int iNVSER
+int iJIP
+
+;Radstorm 
+int iRads1Mag
+int iRads2Mag
+int iRads4Mag
+int iPlaySoundOnce
+int iRadStormDoOnce
+int iRadStormPerk
+
+float fCurrentTime
+float fCurrentHour 
+float fPreviousHour
+float fPlayerXang
+float ftimer
+float fRand
+
+short iProtectedDustStormAreas
+short iSpecialInteriors
+short iCurrentMonth
+short iCurrentDay
+short iPreviousDay
+short iSnowyWeathers
+
+;Debug 
+int bDebugPrintEnabled
+int bDebugConsoleLogEnabled
+string_var LogPath
+string_var timeStamp
+array_var userTime
+
+;fast travel weather snap fix
+ref rMapMarkerRef
+ref rWeatherBeforeTravel
+ref rMapMarkerTarget
+int iFastTravelWeatherCanChange
+
+;Wind 
+;float fWindDirectionRand
+
+Begin GameMode 
+	if GetGameRestarted
+		SetStage RWLEQuest 5
+		if (iNVSEV + (iNVSER / 10) < 5.0) && (iNVSEB < 2)	
+			ShowMessage RWLENVSEMessage
+			Return
+		elseif iJIP < 35						
+			ShowMessage RWLEJIPNVSEMessage 
+			Return
+		else 		
+			let userTime := GetUserTime;
+			let LogPath := "RWLEDebugLog - " + $userTime->"Month" + "_" + $userTime->"Day" + "_" + $userTime->"Year" + ".txt"
+			con_SCOF $LogPath
+			let timeStamp := $userTime->"Month" + "/" + $userTime->"Day" + "/" + $userTime->"Year" + " " + $userTime->"Hour" + ":" + $userTime->"Minute" + ":" + $userTime->"Second"
+			printc "==========================================================================="
+			printc "RWLE Logging Enabled"
+			printc $timeStamp
+			printc "==========================================================================="
+			
+			set iCurrentMonth to GameMonth
+			set iCurrentDay to GameDay
+			set iPlayerInside to player.IsInInterior
+			call aaaRWLEClimateUDF iCurrentMonth
+			set iSetClimateOnce to 0
+			printc "RWLE: ClimateUDF called [GameRestarted]"
+			
+			set iMonthChanged to 1 
+			call aaaRWLENightBrightnessUDF rCurrentWeather iCurrentDay fRand
+			printc "RWLE: NightBrightnessUDF called [GameRestarted]"
+			
+			set iImageSpaceCanChange to 0
+			set iImageSpaceChanged to 1
+			if iPlayerInside							
+				set iSoundRefsDisabled to 0
+			else
+				set iSoundRefsDisabled to 1
+			endif
+			
+			set rPreviousWeather to GetCurrentWeather
+			set rCurrentWeather to rPreviousWeather
+			set rPreviousWorldspace to PlayerRef.GetParentWorldspace
+			set rPreviousCell to PlayerRef.GetParentCell 
+			set rPreviousClimate to GetCurrentClimate 
+			
+			set rCurrentWorldspace to rPreviousWorldspace
+			set rCurrentCell to rPreviousCell
+			set rCurrentClimate to rPreviousClimate
+			
+			set iWeatherSetup to 1
+			set iSwimHeightNeedsChanging to 1 
+			set iGrassLightingEnabled to 0 
+			
+			SetWeatherTransitionTimeOverride 240 
+			SetOnFastTravelEventHandler aaaRWLEFastTravelFixEVENT 1 
+			SetOnMenuOpenEventHandler aaaRWLEStopSoundsWaitMenuEVENT 1 1012
+			SetOnMenuOpenEventHandler aaaRWLEPipBoyMenuEVENT 1 1023
+			;SetEventHandler "OnDeath" aaaRWLEDeathEVENT
+		endif 
+	endif 
+	
+	set fPlayerXang to PlayerRef.GetAngle X   
+	set fCurrentTime to GetCurrentTime
+	set iPlayerInside to PlayerRef.IsInInterior
+	set iSpecialInteriors to ( rCurrentCell == NtlGuardDepot01 || rCurrentCell == DLC03PowerWorks03 || rCurrentCell == DLC04Cathedral01 || rCurrentCell == DLC04BogEntrance || rCurrentCell == DLC02zEndGlacierCave || rCurrentCell == DLC02GlacierCave || rCurrentCell == CorvegaFactory01 || rCurrentCell == DunwichBuilding01 || rCurrentCell == DunwichBuilding02 || rCurrentCell == DunwichBuilding03 )
+	set fRand to Rand 1, 100
+	
+	set iCurrentDay to GameDay 
+	if iCurrentDay == iPreviousDay 
+	else 
+		set iCurrentDay to GameDay 
+		set iPreviousDay to iCurrentDay
+		printc "RWLE: Day changed [DayChangeDetection]" 
+	endif
+	
+	set rCurrentWeather to GetCurrentWeather 
+	if rCurrentWeather == rPreviousWeather
+	else
+		set rCurrentWeather to GetCurrentWeather 
+		set rPreviousWeather to rCurrentWeather   
+		set iWeatherChanged to 1 
+	endif 	
+	if iWeatherChanged
+		set iWeatherSetup to 1 
+		set iImageSpaceCanChange to 1 
+		set iImageSpaceChanged to 0
+		set ftimer to 0
+		
+		if iRadStormDoOnce
+			set iRadStormDoOnce to 0
+		endif 
+		if iTurnOffFogFadeFar
+			set iTurnOffFogFadeFar to 0
+		endif 
+		if iTurnOffFogFadeNear
+			set iTurnOffFogFadeNear to 0 
+		endif 
+		if iWeatherFadedIn
+			set iWeatherFadedIn to 0 
+		endif 
+		if iPlaySoundOnce
+			set iPlaySoundOnce to 0 
+		endif 
+		
+		set iRadStormPerk to Player.HasPerk aaaRWLEWeatherPerkRadStorms
+		if iRadStormPerk 	
+			Player.RemovePerk aaaRWLEWeatherPerkRadStorms
+		endif 
+		
+		call aaaRWLEWeatherVariablesUDF rCurrentWeather 
+		call aaaRWLEWindUDF rCurrentWeather iGrassLightingEnabled
+		;set fWindDirection to GetWindDirection
+
+		
+		printc "RWLE: Weather changed [WeatherTracking]"
+		printc "RWLE: WindUDF called [WeatherTracking]"
+		printc "RWLE: WeatherVariablesUDF called [WeatherTracking]"
+		
+		if iFastTravelWeatherCanChange
+		else 
+			set iFastTravelWeatherCanChange to 1 
+		endif 
+		
+		if iWeatherChanged 
+			set iWeatherChanged to 0
+		endif 
+	endif 
+	
+	;Fast travel weather snap fix
+	if iFastTravelWeatherCanChange
+		if iPlayerFastTravelledRWLE 
+			if iPipboyDataMenuRWLE
+				fw rWeatherBeforeTravel
+			endif 
+			set iPipboyDataMenuRWLE to 0 
+			set iPlayerFastTravelledRWLE to 0
+			printc "RWLE: weather forced after fast travel [3]" 
+		endif  
+		set iFastTravelWeatherCanChange to 0 
+	endif 
+	
+	;if iPlayerDiedRWLE 
+	;	fw rWeatherBeforeDeath 
+	;	set iPlayerDiedRWLE to 0 
+	;	printc "RWLE: Weather forced after death"
+	;endif 
+	
+	
+	if iMoveWorldspace
+	else 
+		set rCurrentWorldspace to PlayerRef.GetParentWorldspace
+		if rCurrentWorldspace == rPreviousWorldspace
+		else
+			set rPreviousWorldspace to rCurrentWorldspace
+			printc "RWLE: Worldspace changed [WorldspaceTracking]" 
+			set iMoveWorldspace to 1
+			set iWeatherSetup to 1 
+		endif
+	endif 
+	
+	
+	if iMoveCell
+	else
+		set rCurrentCell to PlayerRef.GetParentCell 
+		if rCurrentCell == rPreviousCell
+		else
+			set rPreviousCell to rCurrentCell
+			printc "RWLE: Cell changed [CellTracking]"  
+			set iMoveSoundsOnce to 0 		
+			set iMoveCell to 1
+		endif
+	endif	
+	
+	if iMoveClimate || iSwimHeightNeedsChanging
+	else 
+		set rCurrentClimate to GetCurrentClimate
+		if rCurrentClimate == rPreviousClimate
+		else
+			set rPreviousClimate to rCurrentClimate 
+			printc "RWLE: Climate changed [ClimateTracking]" 
+			set iMoveClimate to 1
+			set iSetClimateOnce to 0
+			set iSwimHeightNeedsChanging to 1 
+		endif
+	endif 
+	
+	if iMonthChanged
+	else
+		if iCurrentMonth == GameMonth
+		else
+			set iCurrentMonth to GameMonth
+			printc "RWLE: Month changed [MonthTracking]" 
+			set iMonthChanged to 1 
+			set iSetClimateOnce to 0
+			set iSunsetTimeCanChange to 1
+			set iSunsetTimeChanged to 0
+		endif
+	endif	
+
+;Dynamic Sunset times 	
+	
+	if iMonthChanged	
+		if iSunsetTimeChanged
+		else
+			if fCurrentTime <= 3.00 
+				if iSunsetTimeCanChange
+				else
+					set iSunsetTimeCanChange to 1
+				endif
+			elseif fCurrentTime >= 10.00 && fCurrentTime <= 15.00 
+				if iSunsetTimeCanChange
+				else
+					set iSunsetTimeCanChange to 1
+				endif
+			else 
+				if iSunsetTimeCanChange || iSunsetTimeChanged
+					set iSunsetTimeCanChange to 0
+					set iSunsetTimeChanged to 0
+				endif
+			endif
+		endif
+	endif	
+	
+	if iPlayerInside 																	
+		if iSunsetTimeChanged
+		else
+			if iSunsetTimeCanChange
+				if iSpecialInteriors
+				else 
+					if iSetClimateOnce
+					else 
+						call aaaRWLEClimateUDF iCurrentMonth
+						printc "RWLE: ClimateUDF called Line 301 [SunsetTimeChange]"
+						call aaaRWLENightBrightnessUDF rCurrentWeather iCurrentDay  fRand 
+						printc "RWLE: NightBrightnessUDF called Line 303 [SunsetTimeChange]"
+						set iSunsetTimeChanged to 1
+						set iImageSpaceChanged to 1		
+						set iMonthChanged to 0
+						set iSetClimateOnce to 1 
+					endif 
+				endif 
+			endif
+		endif
+	endif		
+
+;Dynamic night brightness and moon	
+	
+	if iImageSpaceChanged
+	else
+		if fCurrentTime >= 9.00 && fCurrentTime <= 17.00 								
+            if iImageSpaceCanChange
+            else 
+                set iImageSpaceCanChange to 1
+            endif
+		else 																			
+			if iSunsetTimeCanChange  													
+			else
+				if iImageSpaceCanChange || iImageSpaceChanged
+					set iImageSpaceCanChange to 0
+					set iImageSpaceChanged to 0
+				endif
+			endif
+		endif
+	endif	
+	
+	if iPlayerInside 																	
+		if iImageSpaceChanged
+		else
+			if iImageSpaceCanChange
+				if iSpecialInteriors
+				else 
+					call aaaRWLENightBrightnessUDF rCurrentWeather iCurrentDay fRand 
+					printc "RWLE: NightBrightnessUDF called [NightSystemUDF]"
+					set iImageSpaceChanged to 1
+				endif 
+			endif
+		endif
+	else 
+		if fCurrentTime >= 9.00 && fCurrentTime <= 17.00   							
+			if iImageSpaceChanged
+			else
+				if iImageSpaceCanChange
+					call aaaRWLENightBrightnessUDF rCurrentWeather iCurrentDay fRand 
+					printc "RWLE: NightBrightnessUDF called [NightSystemUDF]"
+					set iImageSpaceChanged to 1
+				endif
+			endif
+		endif 
+	endif
+	
+;Interior sounds 	
+	
+	if iPlayerInside || iSpecialInteriors
+		if iMoveSoundsOnce 															
+		else
+			IntSound1REF.MoveTo PlayerRef
+			IntSound2REF.MoveTo PlayerRef
+			IntSound3REF.MoveTo PlayerRef
+			IntSound4REF.MoveTo PlayerRef
+			printc "RWLE: Interior sounds moved to player [InteriorSoundSystem]" 
+			set iMoveSoundsOnce to 1
+		endif
+	else
+		if iSoundRefsDisabled
+		else
+			IntSound1REF.Disable
+			IntSound2REF.Disable
+			IntSound3REF.Disable
+			IntSound4REF.Disable
+			printc "RWLE: Interior sounds disbled [InteriorSoundSystem]" 
+			set iSoundRefsDisabled to 1
+		endif
+	endif
+	
+	if iMoveCell
+		if iPlayerInside
+			IntSound1REF.Disable
+			IntSound2REF.Disable
+			IntSound3REF.Disable
+			IntSound4REF.Disable
+			set iMoveCell to 0
+			set iMoveSound to 1
+		else 
+			set iMoveCell to 0
+			set iMoveSound to 0
+		endif
+	elseif iMoveSound				
+		set iMoveSound to 0
+		if iWeatherFadedIn
+			if IntSound1REF.GetDisabled
+				if MenuMode 1012
+				else 
+					IntSound1REF.Enable
+					IntSound2REF.Enable
+					IntSound3REF.Enable
+					if ( ListGetFormIndex TinRoofCells rCurrentCell > 0 )
+						IntSound4REF.Enable
+					else 
+						IntSound4REF.Disable
+					endif
+					if iSoundRefsDisabled
+						set iSoundRefsDisabled to 0
+					endif
+					printc "RWLE: Interior weather REFs enabled [InteriorSoundSystem]" 
+				endif 
+			endif 
+		endif 
+	endif	
+	
+	if GetQuestRunning CG04 
+		if GetStageDone CG04 145 ;player has spoken to Amata, vault door is open and guards coming in 
+			;only force once
+			fw CapitalWastelandClear1HighSunLightWindVeryLite 1 
+			printc "RWLE: Vault 101 Clear Weather Forced" 
+		elseif GetStageDone CG04 150 ;player finished changing character and left vault 
+			ReleaseWeatherOverride
+			printc "RWLE: Vault 101 Weather Released" 
+		endif
+	endif 
+			
+	;Searchlight rad storm 
+	
+	if IsPlayerInRegion NVSearchLightRegion 
+		if rCurrentWeather == WastelandRadStormWindExtreme
+		else 
+			SetWeatherTransitionTimeOverride 30 
+			sw WastelandRadStormWindExtreme 1 
+			set iReleaseLocationalWeather to 0 
+			printc "RWLE: Search light weather enabled"
+		endif 
+	
+;Jacobstown snow weather	
+	
+	elseif IsPlayerInRegion NVJacobstownRegion
+		set iSnowyWeathers to ( rCurrentWeather == WastelandSnowVeryLiteWindVeryLite || rCurrentWeather == WastelandSnowLiteWindMed || rCurrentWeather == WastelandSnowMediumWindHigh || rCurrentWeather == WastelandSnowHeavyWindExtreme || rCurrentWeather == WastelandBlizzardWindExtreme || rCurrentWeather == WastelandBlizzardWhiteOutWindExtreme )
+		;set iSnowyWeathers to ( ListGetFormIndex aaaRWLESnowyWeathersList rCurrentWeather > 0 )
+		;Could maybe set a special climate in Jacobstown instead of just forcing a weather
+		SetWeatherTransitionTimeOverride 30 
+		if iSnowyWeathers
+		else 
+			if fRand > 1 && fRand <= 20 
+				if rCurrentWeather == WastelandSnowVeryLiteWindVeryLite
+				else 
+					SetWeather WastelandSnowVeryLiteWindVeryLite 1
+				endif 
+			elseif fRand > 21 && fRand <= 40 
+				if rCurrentWeather == WastelandSnowLiteWindMed
+				else 
+					SetWeather WastelandSnowLiteWindMed 1
+				endif 
+			elseif fRand > 41 && fRand <= 60 
+				if rCurrentWeather == WastelandSnowMediumWindHigh
+				else 
+					SetWeather WastelandSnowMediumWindHigh 1
+				endif 
+			elseif fRand > 61 && fRand <= 80 
+				if rCurrentWeather == WastelandSnowHeavyWindExtreme 
+				else 
+					SetWeather WastelandSnowHeavyWindExtreme 1
+				endif 
+			elseif fRand > 81 && fRand <= 86 
+				if rCurrentWeather == WastelandBlizzardWindExtreme 
+				else 
+					SetWeather WastelandBlizzardWindExtreme 1
+				endif 	
+			elseif fRand > 87 && fRand <= 93 
+				if rCurrentWeather == WastelandBlizzardWhiteoutWindExtreme 
+				else 
+					SetWeather WastelandBlizzardWhiteoutWindExtreme 1
+				endif 		
+			endif  
+			printc "RWLE: Jacobstown weathers enabled"
+			set iReleaseLocationalWeather to 0 
+		endif 
+	else 
+		if iReleaseLocationalWeather
+		else 
+			SetWeatherTransitionTimeOverride 240 
+			ReleaseWeatherOverride 
+			set iReleaseLocationalWeather to 1 
+			printc "RWLE: Weathers released"
+		endif 
+	endif 
+		;FUTURE PLAN ?
+		;copy over stuff from broken version of RWLE and implement these
+			
+			;if rCurrentClimate == WastelandClimate	
+			;Dunwich blood or harvestmoon after entering building. Also enabled if player forces Dunwich weather in console when in DC
+			;if ( ListGetFormIndex aaaRWLEDunwichInteriorsList rCurrentCell > 0 ) || rCurrentWeather == DunwichFoggyTemplate
+			;	if bDunwichRequiresWW
+				;	if playerRef.HasPerk WildWasteland 
+					;	Set bDunwichHauntedWeather to 1 
+				;		set fRand to Rand 1, 100 
+				;		if bNightSystemEnabled
+					;		call aaaRWLENightSystemUDF rCurrentWeather, bRareSpecialMoon, bNoBarkPinkMoon, bDocMitchellFullMoon, bDunwichHauntedWeather, bMoonOverride, fRand, iCurrentDay, bDebugPrintEnabled
+					;	endif 
+				;	endif 
+				;	if bDebugPrintEnabled
+					;	printc "RWLE Dunwich Block ran (line 480)"
+				;	endif 
+				;else 
+				;	Set bDunwichHauntedWeather to 1 
+				;	set fRand to Rand 1, 100 
+				;	if bNightSystemEnabled
+					;	call aaaRWLENightSystemUDF rCurrentWeather, bRareSpecialMoon, bNoBarkPinkMoon, bDocMitchellFullMoon, bDunwichHauntedWeather, bMoonOverride, fRand, iCurrentDay, bDebugPrintEnabled
+				;	endif 
+				;endif 
+			;endif 
+		
+			;Sunny weather in Oasis 
+
+			;if ( ListGetFormIndex aaaRWLEOasisSurroundingCellList rCurrentCell > 0 ) || rCurrentWorldSpace == ( OasisHarold || Oasis )  ;Smoothly transition into clear weather in surrounding cells 
+			;	sw NVClearTemplate1 1 
+			;	set bWeatherReleaseOverrideOnce to 0
+			;elseif rCurrentWorldSpace == Oasis || rCurrentWorldSpace == OasisHarold 
+			;	sw NVClearTemplate1 1 
+			 ;  set bWeatherReleaseOverrideOnce to 0
+			;else 
+			;	if bWeatherReleaseOverrideOnce
+			;	else 
+			;		ReleaseWeatherOverride 
+				;	set bWeatherReleaseOverrideOnce to 1 
+				;	printc "RWLE Debug: Weathers released"
+			;	endif
+			;endif 
+			
+
+			;Pink moon when talking to No Bark if the player has Wild Wasteland 
+			;if iNoBarkPinkMoon
+			;	if iNoBarkRequiresWW
+				;	if playerRef.HasPerk WildWasteland 
+				;		set fRand to Rand 1, 100 
+				;		if bNightSystemEnabled
+					;		call aaaRWLENightSystemUDF rCurrentWeather, bRareSpecialMoon, bNoBarkPinkMoon, bDocMitchellFullMoon, bDunwichHauntedWeather, bMoonOverride, fRand, iCurrentDay, bDebugPrintEnabled
+					;	endif 
+				;	endif 
+				;else 
+				;	set fRand to Rand 1, 100 
+					;if bNightSystemEnabled
+					;	call aaaRWLENightSystemUDF rCurrentWeather, bRareSpecialMoon, bNoBarkPinkMoon, bDocMitchellFullMoon, bDunwichHauntedWeather, bMoonOverride, fRand, iCurrentDay, bDebugPrintEnabled
+					;endif 
+				;endif 
+			;endif 
+			
+	
+	;Swimming detection 
+
+	if iSwimHeightNeedsChanging
+		if rCurrentClimate == DivideCLIMATE 
+			set iPlayerSwimming to PlayerRef.IsInWater && PlayerRef.GetPos Z <= 10000
+			printc "RWLE: Divide Worldspace swim height set [SwimHeightDetection]"
+		elseif rCurrentClimate == SierraCLIMATE 
+			set iPlayerSwimming to PlayerRef.IsInWater && PlayerRef.GetPos Z <= -1000 
+			printc "RWLE: Sierra Worldspace swim height set [SwimHeightDetection]"
+		elseif rCurrentClimate == CapitalWastelandCLIMATE 
+			set iPlayerSwimming to PlayerRef.IsInWater && PlayerRef.GetPos Z <= 100000
+			printc "RWLE: DC Worldspace swim height set [SwimHeightDetection]"
+		elseif rCurrentClimate == MojaveCLIMATE 
+			set iPlayerSwimming to PlayerRef.IsInWater && PlayerRef.GetPos Z <= 2000		
+			printc "RWLE: Mojave Worldspace swim height set [SwimHeightDetection]"
+		elseif rCurrentClimate == ThePittCLIMATE 
+			set iPlayerSwimming to PlayerRef.IsInWater && PlayerRef.GetPos Z <= 10000 
+			printc "RWLE: Pitt Worldspace swim height set [SwimHeightDetection]"
+		elseif rCurrentClimate == ZionCLIMATE 
+			set iPlayerSwimming to PlayerRef.IsInWater && PlayerRef.GetPos Z <= 4571
+			printc "RWLE: Zion Worldspace swim height set [SwimHeightDetection]"
+		elseif rCurrentClimate == BigMountainCLIMATE
+			set iPlayerSwimming to PlayerRef.IsInWater && PlayerRef.GetPos Z <= -20000
+			printc "RWLE: Big MTN Worldspace swim height set [SwimHeightDetection]"
+		elseif rCurrentClimate == PointLookoutCLIMATE 
+			set iPlayerSwimming to PlayerRef.IsInWater && PlayerRef.GetPos Z <= -2100
+			printc "RWLE: Point Lookout Worldspace swim height set [SwimHeightDetection]"
+		else 
+			set iPlayerSwimming to PlayerRef.IsInWater && PlayerRef.GetPos Z -20000 
+			printc "RWLE: No known Worldspace swim height set [SwimHeightDetection]"
+		endif 
+		set iSwimHeightNeedsChanging to 0 
+	endif 	
+	
+	;Particles treated as inside unless it has a hole in the roof	
+	set iPlayerInside to ( iSpecialInteriors - PlayerRef.IsInInterior )
+	
+	if iPlayerInside
+		if iWaitMenuRWLE
+			if MenuMode 1012 == 0 
+				IntSound1REF.Enable
+				IntSound2REF.Enable 
+				IntSound3REF.Enable
+				IntSound4REF.Enable
+				printc "RWLE: Interior sounds enabled after Sleep/Wait"
+			endif 
+			set iWaitMenuRWLE to 0 
+		endif 
+	else 
+		if iWaitMenuRWLE
+			if MenuMode 1012 == 0 
+				ExtSound1REF.Enable
+				ExtSound2REF.Enable
+				ExtSound3REF.Enable
+				ExtSound4REF.Enable
+				printc "RWLE: Exterior sounds enabled after Sleep/Wait"
+			endif 
+			set iWaitMenuRWLE to 0 
+		endif 
+	endif 
+	
+	;Weather setup happens after weather switches, once before a weather is started 
+	if iWeatherSetup
+		set iProtectedDustStormAreas to ( rCurrentWorldspace == FreesideWorld || rCurrentWorldspace == FreesideNorthWorld || rCurrentWorldspace == FreesideFortWorld || rCurrentWorldspace == TheStripWorldNew || rCurrentWorldspace == TheFortWorld || rCurrentWorldspace == Lucky38World || rCurrentWorldspace == GamorrahWorld || rCurrentWorldspace == MegatonWorld || rCurrentWorldspace == CitadelWorld )
+		call aaaRWLEExtRefDisableUDF 
+		call aaaRWLEWeatherSetupUDF rCurrentClimate, rCurrentCell, rCurrentWorldspace, rCurrentWeather, iSpecialInteriors, iProtectedDustStormAreas, rPreviousWeather, fRand
+		printc "RWLE: WeatherSetupUDF called [WeatherSetup]"
+		set iWeatherSetup to 0 
+	else
+		if iPlayerSwimming || iPlayerInside || rCurrentCell == DLC03RaiderSilo || rCurrentCell == FFRaiderCamp03Silo || rCurrentCell == NVDLC03TheSink || rCurrentWorldspace == Lucky38World 
+			if iWeatherRefsDisabled
+			else 
+				call aaaRWLEExtRefDisableUDF 
+				set iWeatherRefsDisabled to 1 
+			endif 
+		;Downpour 
+		elseif iWeatherType == 1 
+			if GetCurrentWeatherPercent == 1 && rCurrentWeather == MojaveRainDownpourWindExtreme || rCurrentWeather == CapitalWastelandRainDownpourWindExtreme 
+				
+				if iWeatherRefsDisabled || iWeatherFadedIn == 0 
+					set iWeatherRefsDisabled to 0 
+					set iWeatherFadedIn to 1 
+					printc "RWLE: iWeatherRefsDisabled set to 0, iWeatherFadedIn set to 1"
+				endif 
+			
+				RainDownpour1REF.MoveTo PlayerRef  
+				RainDownpour1REF.SetAngle X 0
+				RainDownpour1REF.SetAngle Y 0
+				RainDownpour1REF.SetAngle Z 0
+				RainThunderStorm1REF.MoveTo playerRef 
+				RainThunderStorm1REF.SetAngle X 0
+				RainThunderStorm1REF.SetAngle Y 0
+				RainThunderStorm1REF.SetAngle Z 0
+				FogGround1REF.MoveTo playerRef  
+				FogGround1REF.SetAngle X -180
+				FogGround1REF.SetAngle Y -180
+				FogGround1REF.SetAngle Z -180
+				RainUPDownPour1REF.MoveTo PlayerRef 
+				RainDOWNDownPour1REF.MoveTo PlayerRef 
+				DustWhirlWind1REF.MoveTo PlayerRef 
+				
+				if ExtSound1REF.GetInSameCell PlayerRef == 0 
+					ExtSound1REF.MoveTo PlayerRef 
+					ExtSound2REF.MoveTo PlayerRef 
+					ExtSound3REF.MoveTo PlayerRef 
+				endif 
+				
+				if ExtSound1REF.GetDisabled
+					ExtSound1REF.Enable
+					ExtSound2REF.Enable
+					ExtSound3REF.Enable
+					DustWhirlWind1REF.Enable
+					FogGround1REF.Enable
+				endif
+				
+				if fPlayerxang >= 35
+					RainDownpour1REF.Disable
+					RainThunderStorm1REF.Disable
+					RainUPDownPour1REF.Disable
+					if RainDOWNDownPour1REF.GetDisabled
+						RainDOWNDownPour1REF.Enable
+					endif
+				elseif fPlayerxang >= -50
+					RainUPDownPour1REF.Disable
+					RainDOWNDownPour1REF.Disable
+					if RainDownpour1REF.GetDisabled
+						RainDownpour1REF.Enable
+						RainThunderStorm1REF.Enable
+					endif	
+				elseif fPlayerxang >= -75
+					RainDownpour1REF.Disable
+					RainThunderStorm1REF.Disable
+					If RainUPDownPour1REF.GetDisabled
+						RainUPDownPour1REF.Enable
+					endif
+				endif 
+			endif 			
+		;Thunderstorm 
+		elseif iWeatherType == 2
+			if GetCurrentWeatherPercent == 1 
+				
+				if iWeatherRefsDisabled || iWeatherFadedIn == 0 
+					set iWeatherRefsDisabled to 0 
+					set iWeatherFadedIn to 1 
+					printc "RWLE: iWeatherRefsDisabled set to 0, iWeatherFadedIn set to 1"
+				endif 
+				
+				RainThunderStorm1REF.MoveTo PlayerRef 
+				RainUPThunderStorm1REF.MoveTo PlayerRef 
+				RainDOWNDownPour1REF.MoveTo PlayerRef 
+				DustWhirlWind1REF.MoveTo PlayerRef 
+				FogGround1REF.MoveTo playerRef  
+				FogGround1REF.SetAngle X -180
+				FogGround1REF.SetAngle Y -180
+				FogGround1REF.SetAngle Z -180
+				
+				if ExtSound1REF.GetInSameCell PlayerRef == 0 
+					ExtSound1REF.MoveTo PlayerRef 
+					ExtSound2REF.MoveTo PlayerRef 
+					ExtSound3REF.MoveTo PlayerRef 
+				endif 
+				
+				if ExtSound1REF.GetDisabled
+					ExtSound1REF.Enable
+					ExtSound2REF.Enable
+					ExtSound3REF.Enable
+					DustWhirlWind1REF.Enable
+					FogGround1REF.Enable
+				endif
+				
+				if fPlayerxang >= 35
+					RainThunderStorm1REF.Disable
+					RainUPThunderStorm1REF.Disable
+					if RainDOWNDownPour1REF.GetDisabled
+						RainDOWNDownPour1REF.Enable       
+					endif
+				elseif fPlayerxang >= -50
+					RainUPThunderStorm1REF.Disable
+					RainDOWNDownPour1REF.Disable
+					if RainThunderStorm1REF.GetDisabled
+						RainThunderStorm1REF.Enable
+					endif
+				elseif fPlayerxang >= -75
+					RainDOWNDownPour1REF.Disable
+					RainThunderStorm1REF.Disable
+					if RainUPThunderStorm1REF.GetDisabled
+						RainUPThunderStorm1REF.Enable
+					endif
+				endif
+			endif 
+		
+		;Medium Rain 
+		elseif iWeatherType == 3 
+			if GetCurrentWeatherPercent == 1 
+				
+				if iWeatherRefsDisabled || iWeatherFadedIn == 0 
+					set iWeatherRefsDisabled to 0 
+					set iWeatherFadedIn to 1 
+					printc "RWLE: iWeatherRefsDisabled set to 0, iWeatherFadedIn set to 1"
+				endif 
+				
+				RainMedium1REF.MoveTo PlayerRef 
+				RainUPMedium1REF.MoveTo PlayerRef 
+				RainDOWNMedium1REF.MoveTo PlayerRef 
+				
+				if ExtSound1REF.GetInSameCell PlayerRef == 0 
+					ExtSound1REF.MoveTo PlayerRef 
+					ExtSound2REF.MoveTo PlayerRef 
+				endif 
+				
+				if ExtSound1REF.GetDisabled
+					ExtSound1REF.Enable
+					ExtSound2REF.Enable
+				endif
+				
+				if fPlayerxang >= 35
+					RainMedium1REF.Disable
+					RainUPMedium1REF.Disable
+					if RainDOWNMedium1REF.GetDisabled
+						RainDOWNMedium1REF.Enable
+					endif
+				elseif fPlayerxang >= -50
+					RainUPMedium1REF.Disable
+					RainDOWNMedium1REF.Disable
+					if RainMedium1REF.GetDisabled
+						RainMedium1REF.Enable
+					endif
+				elseif fPlayerxang >= -75
+					RainMedium1REF.Disable
+					RainDOWNMedium1REF.Disable
+					if RainUPMedium1REF.GetDisabled
+						RainUPMedium1REF.Enable
+					endif
+				endif
+			endif 
+		
+		;Drizzle 
+		elseif iWeatherType == 4 
+			if GetCurrentWeatherPercent == 1
+				
+				if iWeatherRefsDisabled || iWeatherFadedIn == 0 
+					set iWeatherRefsDisabled to 0 
+					set iWeatherFadedIn to 1 
+					printc "RWLE: iWeatherRefsDisabled set to 0, iWeatherFadedIn set to 1"
+				endif 
+				
+				RainDrizzle1REF.MoveTo PlayerRef 
+				RainUPDrizzle1REF.MoveTo PlayerRef 
+				RainDOWNDrizzle1REF.MoveTo PlayerRef 
+				
+				if ExtSound1REF.GetInSameCell PlayerRef == 0 
+					ExtSound1REF.MoveTo PlayerRef 
+					ExtSound2REF.MoveTo PlayerRef 
+				endif 
+				
+				if ExtSound1REF.GetDisabled
+					ExtSound1REF.Enable
+					ExtSound2REF.Enable
+				endif
+				
+				if fPlayerxang >= 35
+					RainDrizzle1REF.Disable
+					RainUPDrizzle1REF.Disable
+					if RainDOWNDrizzle1REF.GetDisabled
+						RainDOWNDrizzle1REF.Enable
+					endif
+				elseif fPlayerxang >= -50
+					RainUPDrizzle1REF.Disable
+					RainDOWNDrizzle1REF.Disable
+					if RainDrizzle1REF.GetDisabled
+						RainDrizzle1REF.Enable
+					endif
+				elseif fPlayerxang >= -75
+					RainDrizzle1REF.Disable
+					RainDOWNDrizzle1REF.Disable
+					if RainUPDrizzle1REF.GetDisabled
+						RainUPDrizzle1REF.Enable 
+					endif
+				endif
+			endif 
+		
+		;Blizzard 
+		elseif iWeatherType == 5
+			if GetCurrentWeatherPercent == 1 
+				
+				if iWeatherRefsDisabled || iWeatherFadedIn == 0 
+					set iWeatherRefsDisabled to 0 
+					set iWeatherFadedIn to 1 
+					printc "RWLE: iWeatherRefsDisabled set to 0, iWeatherFadedIn set to 1"
+				endif 
+				
+				if ExtSound1REF.GetInSameCell PlayerRef == 0 
+					ExtSound1REF.MoveTo PlayerRef 
+				endif 
+				
+				if ExtSound1REF.GetDisabled
+					ExtSound1REF.Enable
+				endif 
+				
+				BlizzardSnowMedium1REF.MoveTo PlayerRef 
+				Blizzard1REF.MoveTo PlayerRef 
+				Blizzard1REF.SetAngle X 90 
+				SnowDrift1REF.MoveTo PlayerRef 
+				SnowDrift2REF.MoveTo PlayerRef 
+				SnowWhirlWind1REF.MoveTo PlayerRef 
+				if iSpecialInteriors
+					if Blizzard1REF.GetDisabled 
+						BlizzardSnowMedium1REF.Enable
+						Blizzard1REF.Enable
+					endif
+				else
+					if Blizzard1REF.GetDisabled 
+						BlizzardSnowMedium1REF.Enable
+						Blizzard1REF.Enable
+						SnowDrift1REF.Enable
+						SnowDrift2REF.Enable
+						SnowWhirlWind1REF.Enable
+					endif
+				endif
+			endif 
+		
+		;Heavy snow 
+		elseif iWeatherType == 6 
+			if GetCurrentWeatherPercent == 1 
+				
+				if iWeatherRefsDisabled || iWeatherFadedIn == 0 
+					set iWeatherRefsDisabled to 0 
+					set iWeatherFadedIn to 1 
+					printc "RWLE: iWeatherRefsDisabled set to 0, iWeatherFadedIn set to 1"
+				endif 
+				
+				if ExtSound1REF.GetInSameCell PlayerRef == 0 
+					ExtSound1REF.MoveTo PlayerRef 
+					ExtSound2REF.MoveTo PlayerRef 
+				endif 			
+				if ExtSound2REF.GetDisabled
+					ExtSound2REF.Enable
+					ExtSound2REF.Disable
+				endif 
+				
+				ExtSound1REF.MoveTo PlayerRef 
+				SnowHeavy1REF.MoveTo PlayerRef 
+				SnowWhirlWind1REF.MoveTo PlayerRef 
+				if iSpecialInteriors
+					if SnowHeavy1REF.GetDisabled 
+						SnowHeavy1REF.Enable
+					endif
+				else
+					if SnowWhirlWind1REF.GetDisabled
+						SnowWhirlWind1REF.Enable
+						SnowHeavy1REF.Enable
+						ExtSound1REF.Enable
+					endif
+				endif
+			endif 
+		
+		;Medium Snow 
+		elseif iWeatherType == 7
+			if GetCurrentWeatherPercent == 1 
+				
+				if iWeatherRefsDisabled || iWeatherFadedIn == 0 
+					set iWeatherRefsDisabled to 0 
+					set iWeatherFadedIn to 1 
+					printc "RWLE: iWeatherRefsDisabled set to 0, iWeatherFadedIn set to 1"
+				endif 
+				
+				if ExtSound1REF.GetInSameCell playerRef == 0
+					ExtSound1REF.MoveTo PlayerRef 
+					ExtSound2REF.MoveTo playerRef 
+				endif 
+				
+				if ExtSound2REF.GetDisabled
+					ExtSound1REF.Enable
+					ExtSound2REF.Enable
+				endif 
+					
+				SnowMedium1REF.MoveTo PlayerRef 
+				SnowWhirlWind1REF.MoveTo PlayerRef 
+				if iSpecialInteriors
+					if SnowMedium1REF.GetDisabled 
+						SnowMedium1REF.Enable
+					endif
+				else
+					if SnowWhirlWind1REF.GetDisabled
+						SnowMedium1REF.Enable
+						SnowWhirlWind1REF.Enable
+						ExtSound1REF.Enable
+					endif
+				endif
+			endif 
+		
+		;Lite snow 
+		elseif iWeatherType == 8 
+			if GetCurrentWeatherPercent == 1 
+				
+				if iWeatherRefsDisabled || iWeatherFadedIn == 0 
+					set iWeatherRefsDisabled to 0 
+					set iWeatherFadedIn to 1 
+					printc "RWLE: iWeatherRefsDisabled set to 0, iWeatherFadedIn set to 1"
+				endif 
+				
+				if ExtSound1REF.GetInSameCell playerRef == 0
+					ExtSound1REF.MoveTo PlayerRef 
+					ExtSound2REF.MoveTo playerRef 
+				endif 
+				
+				if ExtSound1REF.GetDisabled
+					ExtSound1REF.Enable
+					ExtSound2REF.Enable
+				endif 
+				
+				SnowLite1REF.MoveTo PlayerRef 
+				if iSpecialInteriors
+					if SnowLite1REF.GetDisabled 
+						SnowLite1REF.Enable
+					endif
+				else
+					if SnowLite1REF.GetDisabled 
+						SnowLite1REF.Enable
+					endif
+				endif
+			endif 
+		
+		;Snow very lite  
+		elseif iWeatherType == 9 
+			if GetCurrentWeatherPercent == 1 
+				
+				if iWeatherRefsDisabled || iWeatherFadedIn == 0 
+					set iWeatherRefsDisabled to 0 
+					set iWeatherFadedIn to 1 
+					printc "RWLE: iWeatherRefsDisabled set to 0, iWeatherFadedIn set to 1"
+				endif 
+				
+				if ExtSound1REF.GetInSameCell PlayerRef == 0
+					ExtSound1REF.MoveTo PlayerRef
+				endif 
+				
+				SnowVeryLite1REF.MoveTo PlayerRef 
+				if SnowVeryLite1REF.GetDisabled 
+					SnowVeryLite1REF.Enable
+					ExtSound1REF.Enable
+				endif
+			endif 
+		
+		;Standard ashfall 
+		elseif iWeatherType == 10 
+			if GetCurrentWeatherPercent == 1 	
+				
+				if iWeatherRefsDisabled || iWeatherFadedIn == 0 
+					set iWeatherRefsDisabled to 0 
+					set iWeatherFadedIn to 1 
+					printc "RWLE: iWeatherRefsDisabled set to 0, iWeatherFadedIn set to 1"
+				endif 
+				
+				ExtSound1REF.MoveTo PlayerRef 
+				Ash1REF.MoveTo PlayerRef 
+				AshWhirlwind1REF.MoveTo PlayerRef 
+				
+				if iSpecialInteriors
+					if Ash1REF.GetDisabled
+						Ash1REF.Enable
+					endif
+				else
+					if Ash1REF.GetDisabled
+						Ash1REF.Enable
+						AshWhirlwind1REF.Enable
+						ExtSound1REF.Enable
+					endif
+				endif
+			endif 
+		
+		;Ashfall cinders 
+		elseif iWeatherType == 11 
+			if GetCurrentWeatherPercent == 1  
+				
+				if iWeatherRefsDisabled || iWeatherFadedIn == 0 
+					set iWeatherRefsDisabled to 0 
+					set iWeatherFadedIn to 1 
+					printc "RWLE: iWeatherRefsDisabled set to 0, iWeatherFadedIn set to 1"
+				endif 
+				
+				if ExtSound1REF.GetInSameCell playerRef
+					ExtSound1REF.MoveTo PlayerRef 
+				endif 
+				
+				AshCinders1REF.MoveTo PlayerRef 
+				AshWhirlwind1REF.MoveTo PlayerRef 
+				
+				if iSpecialInteriors
+					if AshCinders1REF.GetDisabled
+						AshCinders1REF.Enable
+					endif
+				else
+					if AshCinders1REF.GetDisabled
+						AshCinders1REF.Enable
+						AshWhirlwind1REF.Enable
+						ExtSound1REF.Enable
+						ExtSound2REF.Enable
+						ExtSound3REF.Enable
+					endif
+				endif
+			endif 
+		
+		;Ashfall cinders bright 
+		elseif iWeatherType == 12  
+			if GetCurrentWeatherPercent == 1 
+				
+				if iWeatherRefsDisabled || iWeatherFadedIn == 0 
+					set iWeatherRefsDisabled to 0 
+					set iWeatherFadedIn to 1 
+					printc "RWLE: iWeatherRefsDisabled set to 0, iWeatherFadedIn set to 1"
+				endif 
+				
+				if ExtSound1REF.GetInSameCell playerRef == 0
+					ExtSound1REF.MoveTo PlayerRef 
+				endif 
+				
+				AshCindersBright1REF.MoveTo PlayerRef 
+				AshWhirlwind1REF.MoveTo PlayerRef 
+				
+				if iSpecialInteriors
+					if AshCindersBright1REF.GetDisabled
+						AshCindersBright1REF.Enable
+					endif
+				else
+					if AshCindersBright1REF.GetDisabled
+						AshCindersBright1REF.Enable
+						AshWhirlwind1REF.Enable
+						ExtSound1REF.Enable
+					endif
+				endif
+			endif 
+		;Ashfall strong 
+		elseif iWeatherType == 13 
+			if GetCurrentWeatherPercent == 1
+					
+				if iWeatherRefsDisabled || iWeatherFadedIn == 0 
+					set iWeatherRefsDisabled to 0 
+					set iWeatherFadedIn to 1 
+					printc "RWLE: iWeatherRefsDisabled set to 0, iWeatherFadedIn set to 1"
+				endif 
+				
+				if ExtSound1REF.GetInSameCell playerRef == 0
+					ExtSound1REF.MoveTo PlayerRef 
+				endif 
+				
+				Ash1REF.MoveTo PlayerRef 
+				AshWhirlwind1REF.MoveTo PlayerRef 
+				AshCinders1REF.MoveTo PlayerRef 
+				AshCindersBright1REF.MoveTo PlayerRef 
+				AshGround1REF.MoveTo PlayerRef 
+				
+				if iSpecialInteriors
+					if Ash1REF.GetDisabled
+						Ash1REF.Enable
+						AshCinders1REF.Enable
+						AshCindersBright1REF.Enable
+					endif
+				else
+					if Ash1REF.GetDisabled
+						Ash1REF.Enable
+						AshCinders1REF.Enable
+						AshCindersBright1REF.Enable
+						AshWhirlwind1REF.Enable
+						ExtSound1REF.Enable
+					endif
+				endif
+			endif 
+		;Mojave sandstorm 
+		elseif iWeatherType == 14  
+			if GetCurrentWeatherPercent == 1 
+				
+				if iWeatherRefsDisabled || iWeatherFadedIn == 0 
+					set iWeatherRefsDisabled to 0 
+					set iWeatherFadedIn to 1 
+					printc "RWLE: iWeatherRefsDisabled set to 0, iWeatherFadedIn set to 1"
+				endif 
+				
+				if ExtSound1REF.GetInSameCell playerRef == 0
+					ExtSound1REF.MoveTo playerRef
+					ExtSound2REF.MoveTo playerRef
+				endif 
+				
+				if iSpecialInteriors || iProtectedDustStormAreas
+					DustStormNVSafeAreaREF.MoveTo PlayerRef
+					if DustStormNVSafeAreaREF.GetDisabled
+						DustStormNVSafeAreaREF.Enable
+						ExtSound2REF.Enable
+					endif 
+				else
+					DustStormNV1REF.MoveTo PlayerRef 90 0 0 
+					DustStormNV2REF.MoveTo PlayerRef 90 0 0
+					DustStormNV1REF.SetAngle X -90
+					if ExtSound1REF.GetDisabled
+						DustStormNV1REF.Enable
+						DustStormNV2REF.Enable
+						ExtSound1REF.Enable
+					endif
+				endif
+			endif 
+		;DC sandstorm 
+		elseif iWeatherType == 15  
+			if GetCurrentWeatherPercent == 1 
+				
+				if iWeatherRefsDisabled || iWeatherFadedIn == 0 
+					set iWeatherRefsDisabled to 0 
+					set iWeatherFadedIn to 1 
+					printc "RWLE: iWeatherRefsDisabled set to 0, iWeatherFadedIn set to 1"
+				endif 
+				
+				if ExtSound1REF.GetInSameCell playerRef == 0
+					ExtSound1REF.MoveTo playerRef
+					ExtSound2REF.MoveTo playerRef
+				endif 
+				
+				if iSpecialInteriors || iProtectedDustStormAreas
+					DustStormDCSafeAreaREF.MoveTo PlayerRef
+					if DustStormDCSafeAreaREF.GetDisabled
+						DustStormDCSafeAreaREF.Enable
+						ExtSound2REF.Enable
+					endif 
+				else 
+					DustStormDC1REF.MoveTo PlayerRef 
+					DustStormDC2REF.MoveTo PlayerRef
+					if ExtSound1REF.GetDisabled
+						DustStormDC1REF.Enable
+						DustStormDC2REF.Enable
+						ExtSound1REF.Enable
+					endif
+				endif
+			endif 
+		;Heathaze 
+		elseif iWeatherType  == 16 && fCurrentTime >= 7.00 && fCurrentTime < 17.00 
+			if GetCurrentWeatherPercent >= 0.8
+				
+				if iWeatherRefsDisabled || iWeatherFadedIn == 0 
+					set iWeatherRefsDisabled to 0 
+					set iWeatherFadedIn to 1 
+					printc "RWLE: iWeatherRefsDisabled set to 0, iWeatherFadedIn set to 1"
+				endif 
+				
+				if ExtSound1REF.GetInSameCell playerRef == 0 
+					ExtSound1REF.MoveTo PlayerRef 
+					ExtSound2REF.MoveTo PlayerRef 
+				endif 
+				
+				HeatHazeTorus1REF.MoveTo PlayerRef 0 0 10
+				
+				if iSpecialInteriors
+				else
+					if HeatHazeTorus1REF.GetDisabled
+						HeatHazeTorus1REF.Enable
+						ExtSound1REF.Enable
+						ExtSound2REF.Enable
+					endif 
+				endif
+			endif 
+		elseif iWeatherType == 16 && fCurrentTime >= 17.00 
+			
+			if iWeatherRefsDisabled || iWeatherFadedIn == 0 
+				set iWeatherRefsDisabled to 0 
+				set iWeatherFadedIn to 1 
+				printc "RWLE: iWeatherRefsDisabled set to 0, iWeatherFadedIn set to 1"
+			endif 
+			
+			if ExtSound1REF.GetInSameCell playerRef == 0 
+				ExtSound1REF.MoveTo PlayerRef 
+			endif 
+			
+			if ExtSound2REF.GetDisabled || HeatHazeTorus1REF.GetDisabled
+			else 
+				ExtSound2REF.Disable
+				HeatHazeTorus1REF.Disable
+			endif 
+			
+			if iSpecialInteriors
+			else
+				if ExtSound1REF.GetInSameCell playerRef == 0 
+					ExtSound1REF.MoveTo PlayerRef 
+				endif 
+				
+				if ExtSound1REF.GetDisabled
+					ExtSound1REF.Enable
+				endif
+			endif
+		;Strong heathaze 
+		elseif iWeatherType == 17 && fCurrentTime >= 9.00 && fCurrentTime < 17.00 
+			
+			if GetCurrentWeatherPercent >= 0.8
+				
+				if iWeatherRefsDisabled || iWeatherFadedIn == 0 
+					set iWeatherRefsDisabled to 0 
+					set iWeatherFadedIn to 1 
+					printc "RWLE: iWeatherRefsDisabled set to 0, iWeatherFadedIn set to 1"
+				endif 
+				
+				if ExtSound1REF.GetInSameCell playerRef == 0 
+					ExtSound1REF.MoveTo PlayerRef 
+					ExtSound2REF.MoveTo PlayerRef 	
+				endif 
+				
+				HeatHazeTorusStrong1REF.MoveTo PlayerRef 0 0 10
+				
+				if iSpecialInteriors
+				else
+					if HeatHazeTorusStrong1REF.GetDisabled
+						HeatHazeTorusStrong1REF.Enable
+						ExtSound1REF.Enable
+						ExtSound2REF.Enable
+					endif
+				endif
+			endif 
+		elseif iWeatherType == 17 && fCurrentTime >= 17.00
+			
+			if iWeatherRefsDisabled || iWeatherFadedIn == 0 
+				set iWeatherRefsDisabled to 0 
+				set iWeatherFadedIn to 1 
+				printc "RWLE: iWeatherRefsDisabled set to 0, iWeatherFadedIn set to 1"
+			endif 
+			
+			if ExtSound2REF.GetDisabled || HeatHazeTorusStrong1REF.GetDisabled 
+			else 
+				ExtSound2REF.Disable
+				HeatHazeTorusStrong1REF.Disable
+			endif 
+			
+			if iSpecialInteriors
+			else
+				if ExtSound1REF.GetInSameCell playerRef == 0
+					ExtSound1REF.MoveTo PlayerRef 
+				endif 
+				if ExtSound1REF.GetDisabled
+					ExtSound1REF.Enable
+				endif
+			endif
+		;Distant heathaze 
+		elseif iWeatherType == 18 && fCurrentTime >= 9.00 && fCurrentTime < 17.00 
+			if GetCurrentWeatherPercent >= 0.8 
+				
+				if iWeatherRefsDisabled || iWeatherFadedIn == 0 
+					set iWeatherRefsDisabled to 0 
+					set iWeatherFadedIn to 1 
+					printc "RWLE: iWeatherRefsDisabled set to 0, iWeatherFadedIn set to 1"
+				endif 
+				
+				if ExtSound1REF.GetInSameCell playerRef == 0
+					ExtSound1REF.MoveTo PlayerRef 
+					ExtSound2REF.MoveTo PlayerRef 
+				endif 
+				
+				HeatHazeDistantTorus1REF.MoveTo PlayerRef 0 0 10
+				if iSpecialInteriors
+				else
+					if HeatHazeDistantTorus1REF.GetDisabled
+						HeatHazeDistantTorus1REF.Enable
+						ExtSound1REF.Enable
+						ExtSound2REF.Enable
+					endif
+				endif
+			endif 
+		elseif iWeatherType == 18 && fCurrentTime >= 17.00
+			
+			if iWeatherRefsDisabled || iWeatherFadedIn == 0 
+				set iWeatherRefsDisabled to 0 
+				set iWeatherFadedIn to 1 
+				printc "RWLE: iWeatherRefsDisabled set to 0, iWeatherFadedIn set to 1"
+			endif 
+			
+			if ExtSound2REF.GetDisabled || HeatHazeDistantTorus1REF.GetDisabled
+			else 
+				ExtSound2REF.Disable
+				HeatHazeDistantTorus1REF.Disable
+			endif 
+			
+			if iSpecialInteriors
+			else
+				if ExtSound1REF.GetInSameCell playerRef == 0 
+					ExtSound1REF.MoveTo PlayerRef
+				endif 
+				if ExtSound1REF.GetDisabled
+					ExtSound1REF.Enable
+				endif
+			endif
+		;Close heathaze 
+		elseif iWeatherType == 19 && fCurrentTime >= 9.00 && fCurrentTime < 17.00 
+			if GetCurrentWeatherPercent >= 0.8 
+			
+				if iWeatherRefsDisabled || iWeatherFadedIn == 0 
+					set iWeatherRefsDisabled to 0 
+					set iWeatherFadedIn to 1 
+					printc "RWLE: iWeatherRefsDisabled set to 0, iWeatherFadedIn set to 1"
+				endif 
+				
+				if ExtSound1REF.GetInSameCell playerRef == 0
+					ExtSound1REF.MoveTo PlayerRef 
+					ExtSound2REF.MoveTo PlayerRef 
+				endif 
+				HeatHazeTorusCloser1REF.MoveTo PlayerRef 0 0 10
+				
+				if iSpecialInteriors
+				else
+					if HeatHazeTorusCloser1REF.GetDisabled
+						HeatHazeTorusCloser1REF.Enable
+						ExtSound1REF.Enable
+						ExtSound2REF.Enable
+					endif
+				endif
+			endif 
+		elseif iWeatherType == 19 && fCurrentTime >= 17.00
+			
+			if iWeatherRefsDisabled || iWeatherFadedIn == 0 
+				set iWeatherRefsDisabled to 0 
+				set iWeatherFadedIn to 1 
+				printc "RWLE: iWeatherRefsDisabled set to 0, iWeatherFadedIn set to 1"
+			endif 
+			
+			if ExtSound2REF.GetDisabled || HeatHazeTorusCloser1REF.GetDisabled
+			else 
+				ExtSound2REF.Disable
+				HeatHazeTorusCloser1REF.Disable
+			endif 
+			if iSpecialInteriors
+			else
+				if ExtSound1REF.GetInSameCell playerRef == 0 
+					ExtSound1REF.MoveTo playerRef
+				endif 
+				if ExtSound1REF.GetDisabled
+					ExtSound1REF.Enable
+				endif
+			endif
+		;Dunwich fog
+		elseif iWeatherType == 20
+			
+			if iWeatherRefsDisabled || iWeatherFadedIn == 0 
+				set iWeatherRefsDisabled to 0 
+				set iWeatherFadedIn to 1 
+				printc "RWLE: iWeatherRefsDisabled set to 0, iWeatherFadedIn set to 1"
+			endif 
+			
+			if ExtSound1REF.GetInSameCell playerRef == 0
+				ExtSound1REF.MoveTo PlayerRef 
+				ExtSound2REF.MoveTo PlayerRef 		
+			endif 
+			
+			FogDW1REF.MoveTo PlayerRef 
+			FogDW2REF.MoveTo PlayerRef 159 0 0
+			FogDW3REF.MoveTo PlayerRef -159 -50 0
+			FogDW4REF.MoveTo PlayerRef -159 -50 0
+			
+			if FogDW1REF.GetDisabled
+				FogDW1REF.Enable
+				FogDW2REF.Enable
+				FogDW3REF.Enable
+				FogDW4REF.Enable
+				ExtSound1REF.Enable
+				ExtSound2REF.Enable
+			endif	
+		;Pitt smog particles 
+		elseif iWeatherType == 21 
+			if GetCurrentWeatherPercent == 1 
+				
+				if iWeatherRefsDisabled || iWeatherFadedIn == 0 
+					set iWeatherRefsDisabled to 0 
+					set iWeatherFadedIn to 1 
+					printc "RWLE: iWeatherRefsDisabled set to 0, iWeatherFadedIn set to 1"
+				endif 
+				
+				if ExtSound1REF.GetInSameCell playerRef == 0 
+					ExtSound1REF.MoveTo PlayerRef 	
+				endif 
+				
+				Smog1REF.MoveTo PlayerRef 0 0 30
+				Smog2REF.MoveTo PlayerRef 90 0 30
+				Smog3REF.MoveTo PlayerRef 180 0 30
+				Smog5REF.MoveTo PlayerRef 90 0 30
+				if iSpecialInteriors
+				else
+					if Smog1REF.GetDisabled
+						ExtSound1REF.Enable
+						Smog1REF.Enable
+						Smog2REF.Enable
+						Smog3REF.Enable
+						Smog5REF.Enable
+						Smog7REF.Enable
+					endif
+				endif
+			endif 
+		;Point lookout swamp gas 
+		elseif iWeatherType == 22 
+			if GetCurrentWeatherPercent == 1 
+				
+				if iWeatherRefsDisabled || iWeatherFadedIn == 0 
+					set iWeatherRefsDisabled to 0 
+					set iWeatherFadedIn to 1 
+					printc "RWLE: iWeatherRefsDisabled set to 0, iWeatherFadedIn set to 1"
+				endif 
+				
+				if ExtSound1REF.GetInSameCell playerRef == 0 
+					ExtSound1REF.MoveTo PlayerRef 	
+				endif 
+				
+				SwampGas1REF.MoveTo PlayerRef 
+				SwampGasHazeTorus1REF.MoveTo PlayerRef 0 0 10	
+				if iSpecialInteriors
+				else
+					if SwampGas1REF.GetDisabled
+						SwampGas1REF.Enable
+						SwampGasHazeTorus1REF.Enable
+						ExtSound1REF.Enable
+					endif
+				endif
+			endif 
+		;Radstorm 
+		elseif iWeatherType == 23  
+			
+			if iWeatherRefsDisabled 
+				set iWeatherRefsDisabled to 0 
+			endif 
+			set ftimer to ftimer + GetSecondsPassed 
+			
+			if iRadStormDoOnce == 0 
+				set DayFarCurrentFog to 97500
+				set NightFarCurrentFog to 97500	
+				
+				set DayNearCurrentFog to 20000
+				set NightNearCurrentFog to 20000
+				
+				SetWeatherTraitNumeric WastelandRadStormWindExtreme 15 DayNearCurrentFog      ;Day near
+                SetWeatherTraitNumeric WastelandRadStormWindExtreme 16 DayFarCurrentFog     ;Day far
+                SetWeatherTraitNumeric WastelandRadStormWindExtreme 17 NightNearCurrentFog    ;night near
+                SetWeatherTraitNumeric WastelandRadStormWindExtreme 18 NightFarCurrentFog    ;night far
+				printc "RWLE: Intial rad storm fog set" 
+				set iRadStormDoOnce to 1 
+			endif 
+			;Intial values set once each time the weather is rad storm 
+			
+			if (DayFarCurrentFog > 8000 && DayFarCurrentFog <= 97500)
+				if iTurnOffFogFadeFar == 0 
+					SetWeatherTraitNumeric WastelandRadStormWindExtreme 16 DayFarCurrentFog 
+					SetWeatherTraitNumeric WastelandRadStormWindExtreme 18 NightFarCurrentFog     
+                    set DayFarCurrentFog to DayFarCurrentFog - 50
+                    set NightFarCurrentFog to NightFarCurrentFog - 50
+                endif
+			elseif (DayFarCurrentFog <= 8000)
+				if iTurnOffFogFadeFar == 0 
+					set iTurnOffFogFadeFar to 1
+					printc "RWLE: Fog fade far turned off"
+				endif
+			endif 
+			
+			
+			
+			if (DayNearCurrentFog > 1000 && DayNearCurrentFog <= 20000)
+			    if iTurnOffFogFadeNear == 0 
+                    SetWeatherTraitNumeric WastelandRadStormWindExtreme 15 DayNearCurrentFog 
+					SetWeatherTraitNumeric WastelandRadStormWindExtreme 17 NightNearCurrentFog   
+					set DayNearCurrentFog to DayNearCurrentFog - 50
+					set NightNearCurrentFog to NightNearCurrentFog - 50
+				endif 
+			elseif (DayNearCurrentFog == 1000)
+				if iTurnOffFogFadeNear == 0 
+					set iTurnOffFogFadeNear to 1 
+					printc "RWLE: Fog fade near turned off"
+				endif 
+			endif 
+					
+			
+			if ftimer >= 2 && ftimer <= 4 
+
+				set iRads1Mag to 1 
+				if iPlaySoundOnce
+				else
+					PlaySound AMBRadsBurst1
+					set iPlaySoundOnce to 1
+				endif
+			elseif ftimer > 4 && ftimer <= 10
+				
+				set iPlaySoundOnce to 0
+				set iRads1Mag to 0 
+			elseif ftimer >= 10 && ftimer <= 12 
+				
+				set iRads2Mag to 1 
+				if iPlaySoundOnce
+				else
+					PlaySound AMBRadsBurst2
+					set iPlaySoundOnce to 1
+				endif
+			elseif ftimer > 12 && ftimer <= 20 
+				
+				set iRads2Mag to 0 
+				set iPlaySoundOnce to 0
+			elseif ftimer > 20 && ftimer <= 23 
+				
+				set iRads2Mag to 1 
+				if iPlaySoundOnce
+				else
+					PlaySound AMBRadsBurst2
+					set iPlaySoundOnce to 1
+				endif 
+			elseif ftimer > 28 && ftimer <= 30 
+				
+				set iRads1Mag to 1 
+				if iPlaySoundOnce
+				else
+					PlaySound AMBRadsBurst3
+					set iPlaySoundOnce to 1
+				endif 
+			elseif ftimer > 30 && ftimer <= 38 
+				
+				set iRads1Mag to 0 
+				set iRads2Mag to 0 
+				set iPlaySoundOnce to 0
+				;DustDebrisNVREF.MoveTo PlayerRef 0 0 -30
+				ExtSound4REF.MoveTo PlayerRef 
+				if ExtSound4REF.GetDisabled
+					;DustDebrisNVREF.Enable
+					ExtSound4REF.Enable
+				endif 
+			elseif ftimer > 38 && ftimer <= 41 
+				
+				set iRads1Mag to 1 
+				if iPlaySoundOnce
+				else
+					PlaySound AMBRadsBurst1
+					set iPlaySoundOnce to 1
+				endif 
+				if ExtSound4REF.GetDisabled
+				else 
+					ExtSound4REF.Disable
+				endif 
+				;DustDebrisNVREF.MoveTo PlayerRef 0 0 -30
+				ExtSound2REF.MoveTo PlayerRef 
+				if ExtSound2REF.GetDisabled
+					;DustDebrisNVREF.Enable
+					ExtSound2REF.Enable
+				endif 
+			elseif ftimer > 41 && ftimer < 50 
+				
+				set iRads1Mag to 0 
+				set iPlaySoundOnce to 0
+				;DustDebrisNVREF.MoveTo PlayerRef 0 0 -30
+				ExtSound2REF.MoveTo PlayerRef 
+				RadParticles1REF.MoveTo PlayerRef 
+				if RadParticles1REF.GetDisabled
+					RadParticles1REF.Enable
+					ExtSound2REF.Enable
+					;DustDebrisNVREF.Enable
+				endif 
+			elseif ftimer > 50 && ftimer <= 52 
+				
+				set iRads4Mag to 1 
+				if iPlaySoundOnce
+				else 
+					PlaySound AMBRadsBurst3 
+					set iPlaySoundOnce to 1
+				endif 
+				RadParticles1REF.MoveTo playerRef
+				;DustDebrisNVREF.MoveTo PlayerRef 0 0 -30
+				ExtSound2REF.MoveTo PlayerRef 
+				if RadParticles1REF.GetDisabled
+					RadParticles1REF.Enable
+					;DustDebrisNVREF.Enable
+					ExtSound2REF.Enable
+				endif 
+			elseif ftimer > 52 && ftimer < 60
+				
+				set iRads4Mag to 0
+				set iWeatherFadedIn to 1 
+				RadParticles1REF.MoveTo playerRef
+				;DustDebrisNVREF.MoveTo PlayerRef 0 0 -30
+				ExtSound2REF.MoveTo PlayerRef 
+				if RadParticles1REF.GetDisabled
+					RadParticles1REF.Enable
+					ExtSound2REF.Enable
+				endif 	
+			elseif ftimer >= 60		
+				if iWeatherFadedIn == 0
+					set iWeatherFadedIn to 1 
+				endif 			
+				
+				Rads2MagREF.MoveTo playerRef
+				ExtSound1REF.MoveTo PlayerRef 
+				ExtSound2REF.MoveTo PlayerRef 
+				ExtSound3REF.MoveTo PlayerRef 
+				RainRadStorm1REF.MoveTo PlayerRef 
+				RainUPDownPour1REF.MoveTo PlayerRef 
+				RainDOWNDownPour1REF.MoveTo PlayerRef 
+				RadParticles1REF.MoveTo playerRef
+				;DustDebrisNVREF.MoveTo PlayerRef 0 0 -50
+				DustWhirlWind1REF.MoveTo PlayerRef 
+				
+				if ExtSound1REF.GetDisabled			
+					Rads2MagREF.Enable
+					RadParticles1REF.Enable
+					ExtSound1REF.Enable
+					ExtSound2REF.Enable
+					ExtSound3REF.Enable
+					;DustDebrisNVREF.Enable
+					DustWhirlWind1REF.Enable
+				endif
+				
+				if fPlayerxang >= 60
+					RainRadStorm1REF.Disable
+					RainUPDownPour1REF.Disable
+					if RainDOWNDownPour1REF.GetDisabled
+						RainDOWNDownPour1REF.Enable   
+					endif
+				elseif fPlayerxang >= -50
+					RainUPDownPour1REF.Disable
+					RainDOWNDownPour1REF.Disable
+					if RainRadStorm1REF.GetDisabled
+						RainRadStorm1REF.Enable
+					endif
+				elseif fPlayerxang >= -75
+					RainRadStorm1REF.Disable
+					RainDOWNDownPour1REF.Disable
+					if RainUPDownPour1REF.GetDisabled
+						RainUPDownPour1REF.Enable
+					endif
+				endif
+			endif
+		;Fog lite, med
+		elseif iWeatherType ==  30 || iWeatherType == 31 
+			if GetCurrentWeatherPercent == 1 
+				
+				if iWeatherRefsDisabled || iWeatherFadedIn == 0 
+					set iWeatherRefsDisabled to 0 
+					set iWeatherFadedIn to 1 
+					printc "RWLE: iWeatherRefsDisabled set to 0, iWeatherFadedIn set to 1"
+				endif 
+				
+				if ExtSound1REF.GetInSameCell playerRef == 0 
+					ExtSound1REF.MoveTo PlayerRef 
+				endif 
+				FogGround1REF.MoveTo playerRef  
+				FogGround1REF.SetAngle X -180
+				FogGround1REF.SetAngle Y -180
+				FogGround1REF.SetAngle Z -180
+				
+				if iSpecialInteriors
+				else
+					if FogGround1REF.GetDisabled
+						FogGround1REF.Enable
+						ExtSound1REF.Enable
+					endif
+				endif
+			endif 	
+		;Fog Strong 
+		
+		elseif iWeatherType == 32	
+			if GetCurrentWeatherPercent == 1 
+				
+				if iWeatherRefsDisabled || iWeatherFadedIn == 0 
+					set iWeatherRefsDisabled to 0 
+					set iWeatherFadedIn to 1 
+					printc "RWLE: iWeatherRefsDisabled set to 0, iWeatherFadedIn set to 1"
+				endif 
+				
+				if ExtSound1REF.GetInSameCell playerRef == 0 
+					ExtSound1REF.MoveTo PlayerRef 
+				endif 
+				
+				FogGround1REF.MoveTo playerRef  
+				FogGround1REF.SetAngle X -180
+				FogGround1REF.SetAngle Y -180
+				FogGround1REF.SetAngle Z -180
+				
+				FogGround2REF.MoveTo playerRef  
+				FogGround2REF.SetAngle X -180
+				FogGround2REF.SetAngle Y -180
+				FogGround2REF.SetAngle Z -180
+				
+				if iSpecialInteriors
+				else
+					if FogGround1REF.GetDisabled
+						FogGround1REF.Enable
+						FogGround2REF.Enable
+						ExtSound1REF.Enable
+					endif
+				endif
+			endif 
+			
+		;Very lite, lite, med, high wind 
+		elseif iWeatherType == 24 || iWeatherType == 25 || iWeatherType == 26 || iWeatherType == 27 
+			if ExtSound1REF.GetInSameCell playerRef == 0 
+					ExtSound1REF.MoveTo PlayerRef 
+				endif 
+			if ExtSound1REF.GetDisabled
+				ExtSound1REF.Enable
+			endif 
+		;Extreme wind with particles NV
+		elseif iWeatherType == 28  
+			if iWeatherRefsDisabled || iWeatherFadedIn == 0 
+				set iWeatherRefsDisabled to 0 
+				set iWeatherFadedIn to 1 
+				printc "RWLE: iWeatherRefsDisabled set to 0, iWeatherFadedIn set to 1"
+			endif 
+			
+			if ExtSound1REF.GetInSameCell playerRef == 0
+				ExtSound1REF.MoveTo PlayerRef 	
+			endif 
+			
+			DustWhirlWind1REF.MoveTo PlayerRef
+			DustDebrisNVREF.MoveTo PlayerRef 0 0 -900
+			DustCloudNVREF.MoveTo PlayerRef 0 0 -900
+			
+			DustDebrisNVREF.SetAngle X -180 
+			DustDebrisNVREF.SetAngle Y -180
+			DustDebrisNVREF.SetAngle Z -180
+			
+			DustCloudNVREF.SetAngle X -180 
+			DustCloudNVREF.SetAngle Y -180
+			DustCloudNVREF.SetAngle Z -180
+		
+			if iSpecialInteriors
+			else
+				if DustDebrisNVREF.GetDisabled 
+					DustDebrisNVREF.Enable
+					DustCloudNVREF.Enable
+					DustWhirlWind1REF.Enable
+					ExtSound1REF.Enable
+				endif
+			endif
+		;Extreme wind with particles DC
+		elseif iWeatherType == 29 
+			if iWeatherRefsDisabled || iWeatherFadedIn == 0 
+				set iWeatherRefsDisabled to 0 
+				set iWeatherFadedIn to 1 
+				printc "RWLE: iWeatherRefsDisabled set to 0, iWeatherFadedIn set to 1"
+			endif 
+
+			
+			if ExtSound1REF.GetInSameCell playerRef == 0
+				ExtSound1REF.MoveTo PlayerRef 	
+			endif 		
+			
+			DustWhirlWind1REF.MoveTo PlayerRef
+			DustDebrisDCREF.MoveTo PlayerRef 0 0 -900
+			DustCloudDCREF.MoveTo PlayerRef 0 0 -900
+			
+			DustDebrisDCREF.SetAngle X -180 
+			DustDebrisDCREF.SetAngle Y -180
+			DustDebrisDCREF.SetAngle Z -180
+			
+			DustCloudDCREF.SetAngle X -180 
+			DustCloudDCREF.SetAngle Y -180
+			DustCloudDCREF.SetAngle Z -180
+		
+			if iSpecialInteriors
+			else
+				if DustDebrisDCREF.GetDisabled 
+					DustDebrisDCREF.Enable
+					DustCloudDCREF.Enable
+					DustWhirlWind1REF.Enable
+					ExtSound1REF.Enable
+				endif
+			endif
+		;Extreme wind with snow particles 
+		elseif iWeatherType == 30
+			if GetCurrentWeatherPercent == 1 
+				if iWeatherRefsDisabled || iWeatherFadedIn == 0 
+					set iWeatherRefsDisabled to 0 
+					set iWeatherFadedIn to 1 
+					printc "RWLE: iWeatherRefsDisabled set to 0, iWeatherFadedIn set to 1"
+				endif 
+
+				
+				if ExtSound1REF.GetInSameCell playerRef == 0
+					ExtSound1REF.MoveTo PlayerRef 	
+				endif 
+				
+				SnowDrift1REF.MoveTo PlayerRef 
+				SnowDrift2REF.MoveTo PlayerRef 
+				SnowWhirlWind1REF.MoveTo PlayerRef 
+				
+				if iSpecialInteriors
+				else
+					if SnowDrift1REF.GetDisabled
+						SnowDrift1REF.Enable
+						SnowDrift1REF.Enable
+						SnowWhirlWind1REF.Enable
+						ExtSound1REF.Enable
+					endif
+				endif
+			endif
+		elseif iWeatherType == 33 ;Radstorm no fade in 
+			if iWeatherRefsDisabled || iWeatherFadedIn == 0 
+				set iWeatherRefsDisabled to 0 
+				set iWeatherFadedIn to 1 
+				printc "RWLE: iWeatherRefsDisabled set to 0, iWeatherFadedIn set to 1"
+			endif 
+
+			Rads2MagREF.MoveTo playerRef
+			ExtSound1REF.MoveTo PlayerRef 
+			ExtSound2REF.MoveTo PlayerRef 
+			ExtSound3REF.MoveTo PlayerRef 
+			RainRadStorm1REF.MoveTo PlayerRef 
+			RainUPDownPour1REF.MoveTo PlayerRef 
+			RainDOWNDownPour1REF.MoveTo PlayerRef 
+			RadParticles1REF.MoveTo playerRef
+			;DustDebrisNVREF.MoveTo PlayerRef 0 0 -50
+			DustWhirlWind1REF.MoveTo PlayerRef 
+			
+			if ExtSound1REF.GetDisabled			
+				Rads2MagREF.Enable
+				RadParticles1REF.Enable
+				ExtSound1REF.Enable
+				ExtSound2REF.Enable
+				ExtSound3REF.Enable
+				;DustDebrisNVREF.Enable
+				DustWhirlWind1REF.Enable
+			endif
+			
+			if fPlayerxang >= 60
+				RainRadStorm1REF.Disable
+				RainUPDownPour1REF.Disable
+				if RainDOWNDownPour1REF.GetDisabled
+					RainDOWNDownPour1REF.Enable   
+				endif
+			elseif fPlayerxang >= -50
+				RainUPDownPour1REF.Disable
+				RainDOWNDownPour1REF.Disable
+				if RainRadStorm1REF.GetDisabled
+					RainRadStorm1REF.Enable
+				endif
+			elseif fPlayerxang >= -75
+				RainRadStorm1REF.Disable
+				RainDOWNDownPour1REF.Disable
+				if RainUPDownPour1REF.GetDisabled
+					RainUPDownPour1REF.Enable
+				endif
+			endif
+		endif
+	endif 
+End 

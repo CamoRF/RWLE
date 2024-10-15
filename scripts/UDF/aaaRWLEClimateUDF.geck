@@ -1,0 +1,655 @@
+scn aaaRWLEClimateUDF
+
+short sCurrentMonth
+
+Begin function { sCurrentMonth }  
+if sCurrentMonth == 1  
+	SetClimateTraitNumeric MojaveCLIMATE 0 392 
+	SetClimateTraitNumeric MojaveCLIMATE 1 452
+	SetClimateTraitNumeric MojaveCLIMATE 2 1056
+	SetClimateTraitNumeric MojaveCLIMATE 3 1116
+
+	SetClimateTraitNumeric BigMountainCLIMATE 0 392 
+	SetClimateTraitNumeric BigMountainCLIMATE 1 452
+	SetClimateTraitNumeric BigMountainCLIMATE 2 1056
+	SetClimateTraitNumeric BigMountainCLIMATE 3 1116
+
+	SetClimateTraitNumeric SierraCLIMATE 0 392
+	SetClimateTraitNumeric SierraCLIMATE 1 452
+	SetClimateTraitNumeric SierraCLIMATE 2 1056
+	SetClimateTraitNumeric SierraCLIMATE 3 1116
+
+	SetClimateTraitNumeric ZionCLIMATE 0 420
+	SetClimateTraitNumeric ZionCLIMATE 1 480
+	SetClimateTraitNumeric ZionCLIMATE 2 1026
+	SetClimateTraitNumeric ZionCLIMATE 3 1086
+
+	SetClimateTraitNumeric DivideCLIMATE 0 420
+	SetClimateTraitNumeric DivideCLIMATE 1 0480
+	SetClimateTraitNumeric DivideCLIMATE 2 1026
+	SetClimateTraitNumeric DivideCLIMATE 3 1086
+
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 0 416
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 1 476
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 2 1074
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 3 1134
+
+	SetClimateTraitNumeric TranqLaneCLIMATE 0 416
+	SetClimateTraitNumeric TranqLaneCLIMATE 1 476
+	SetClimateTraitNumeric TranqLaneCLIMATE 2 1074
+	SetClimateTraitNumeric TranqLaneCLIMATE 3 1134
+
+	SetClimateTraitNumeric ThePittCLIMATE 0 426
+	SetClimateTraitNumeric ThePittCLIMATE 1 486
+	SetClimateTraitNumeric ThePittCLIMATE 2 1080
+	SetClimateTraitNumeric ThePittCLIMATE 3 1140
+
+	SetClimateTraitNumeric PointLookoutCLIMATE 0 416
+	SetClimateTraitNumeric PointLookoutCLIMATE 1 476
+	SetClimateTraitNumeric PointLookoutCLIMATE 2 1074
+	SetClimateTraitNumeric PointLookoutCLIMATE 3 1134
+
+	SetClimateTraitNumeric AnchorageCLIMATE 0 528
+	SetClimateTraitNumeric AnchorageCLIMATE 1 588
+	SetClimateTraitNumeric AnchorageCLIMATE 2 1071
+	SetClimateTraitNumeric AnchorageCLIMATE 3 1131
+
+	set RWLEQuest.iSpecialMoon to 0
+	printc "RWLE: Month 2 climate changed [ClimateTraitsUDF]"
+elseif sCurrentMonth == 2  
+	SetClimateTraitNumeric MojaveCLIMATE 0 357
+	SetClimateTraitNumeric MojaveCLIMATE 1 417
+	SetClimateTraitNumeric MojaveCLIMATE 2 1080
+	SetClimateTraitNumeric MojaveCLIMATE 3 1140
+
+	SetClimateTraitNumeric BigMountainCLIMATE 0 357
+	SetClimateTraitNumeric BigMountainCLIMATE 1 417
+	SetClimateTraitNumeric BigMountainCLIMATE 2 1080
+	SetClimateTraitNumeric BigMountainCLIMATE 3 1140
+
+	SetClimateTraitNumeric SierraCLIMATE 0 357
+	SetClimateTraitNumeric SierraCLIMATE 1 417
+	SetClimateTraitNumeric SierraCLIMATE 2 1080
+	SetClimateTraitNumeric SierraCLIMATE 3 1140
+
+	SetClimateTraitNumeric ZionCLIMATE 0 357
+	SetClimateTraitNumeric ZionCLIMATE 1 417
+	SetClimateTraitNumeric ZionCLIMATE 2 1080
+	SetClimateTraitNumeric ZionCLIMATE 3 1140
+
+	SetClimateTraitNumeric DivideCLIMATE 0 357
+	SetClimateTraitNumeric DivideCLIMATE 1 417
+	SetClimateTraitNumeric DivideCLIMATE 2 1080
+	SetClimateTraitNumeric DivideCLIMATE 3 1140
+
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 0 423
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 1 483
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 2 1164
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 3 1224
+
+	SetClimateTraitNumeric TranqLaneCLIMATE 0 423
+	SetClimateTraitNumeric TranqLaneCLIMATE 1 483
+	SetClimateTraitNumeric TranqLaneCLIMATE 2 1164
+	SetClimateTraitNumeric TranqLaneCLIMATE 3 1224
+
+	SetClimateTraitNumeric ThePittCLIMATE 0 450
+	SetClimateTraitNumeric ThePittCLIMATE 1 510
+	SetClimateTraitNumeric ThePittCLIMATE 2 1170
+	SetClimateTraitNumeric ThePittCLIMATE 3 1230
+
+	SetClimateTraitNumeric PointLookoutCLIMATE 0 423
+	SetClimateTraitNumeric PointLookoutCLIMATE 1 483
+	SetClimateTraitNumeric PointLookoutCLIMATE 2 1164
+	SetClimateTraitNumeric PointLookoutCLIMATE 3 1224
+
+	SetClimateTraitNumeric AnchorageCLIMATE 0 495
+	SetClimateTraitNumeric AnchorageCLIMATE 1 555
+	SetClimateTraitNumeric AnchorageCLIMATE 2 1200
+	SetClimateTraitNumeric AnchorageCLIMATE 3 1260
+	
+	set RWLEQuest.iSpecialMoon to 1
+	printc "RWLE: Month 3 climate changed [ClimateTraitsUDF]"
+elseif sCurrentMonth == 3
+	SetClimateTraitNumeric MojaveCLIMATE 0 308
+	SetClimateTraitNumeric MojaveCLIMATE 1 0368
+	SetClimateTraitNumeric MojaveCLIMATE 2 1110
+	SetClimateTraitNumeric MojaveCLIMATE 3 1170
+
+	SetClimateTraitNumeric BigMountainCLIMATE 0 308
+	SetClimateTraitNumeric BigMountainCLIMATE 1 368
+	SetClimateTraitNumeric BigMountainCLIMATE 2 1110
+	SetClimateTraitNumeric BigMountainCLIMATE 3 1170
+
+	SetClimateTraitNumeric SierraCLIMATE 0 308
+	SetClimateTraitNumeric SierraCLIMATE 1 368
+	SetClimateTraitNumeric SierraCLIMATE 2 1110
+	SetClimateTraitNumeric SierraCLIMATE 3 1170
+
+	SetClimateTraitNumeric ZionCLIMATE 0 308
+	SetClimateTraitNumeric ZionCLIMATE 1 368
+	SetClimateTraitNumeric ZionCLIMATE 2 1110
+	SetClimateTraitNumeric ZionCLIMATE 3 1170
+
+	SetClimateTraitNumeric DivideCLIMATE 0 308
+	SetClimateTraitNumeric DivideCLIMATE 1 368
+	SetClimateTraitNumeric DivideCLIMATE 2 1110
+	SetClimateTraitNumeric DivideCLIMATE 3 1170
+
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 0 386
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 1 446
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 2 1194
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 3 1254
+	
+
+	SetClimateTraitNumeric TranqLaneCLIMATE 0 386
+	SetClimateTraitNumeric TranqLaneCLIMATE 1 446
+	SetClimateTraitNumeric TranqLaneCLIMATE 2 1194
+	SetClimateTraitNumeric TranqLaneCLIMATE 3 1254
+
+	SetClimateTraitNumeric ThePittCLIMATE 0 408
+	SetClimateTraitNumeric ThePittCLIMATE 1 468
+	SetClimateTraitNumeric ThePittCLIMATE 2 1200
+	SetClimateTraitNumeric ThePittCLIMATE 3 1260
+
+	SetClimateTraitNumeric PointLookoutCLIMATE 0 386
+	SetClimateTraitNumeric PointLookoutCLIMATE 1 446
+	SetClimateTraitNumeric PointLookoutCLIMATE 2 1194
+	SetClimateTraitNumeric PointLookoutCLIMATE 3 1254
+
+	SetClimateTraitNumeric AnchorageCLIMATE 0 391
+	SetClimateTraitNumeric AnchorageCLIMATE 1 451
+	SetClimateTraitNumeric AnchorageCLIMATE 2 1290
+	SetClimateTraitNumeric AnchorageCLIMATE 3 1350 
+	
+	set RWLEQuest.iSpecialMoon to 0
+	printc "RWLE: Month 4 climate changed [ClimateTraitsUDF]"
+elseif sCurrentMonth == 4
+	SetClimateTraitNumeric MojaveCLIMATE 0 291
+	SetClimateTraitNumeric MojaveCLIMATE 1 351
+	SetClimateTraitNumeric MojaveCLIMATE 2 1137
+	SetClimateTraitNumeric MojaveCLIMATE 3 1197
+
+	SetClimateTraitNumeric BigMountainCLIMATE 0 291
+	SetClimateTraitNumeric BigMountainCLIMATE 1 351
+	SetClimateTraitNumeric BigMountainCLIMATE 2 1137
+	SetClimateTraitNumeric BigMountainCLIMATE 3 1197
+
+	SetClimateTraitNumeric SierraCLIMATE 0 291
+	SetClimateTraitNumeric SierraCLIMATE 1 351
+	SetClimateTraitNumeric SierraCLIMATE 2 1137
+	SetClimateTraitNumeric SierraCLIMATE 3 1197
+
+	SetClimateTraitNumeric ZionCLIMATE 0 291
+	SetClimateTraitNumeric ZionCLIMATE 1 351
+	SetClimateTraitNumeric ZionCLIMATE 2 1137
+	SetClimateTraitNumeric ZionCLIMATE 3 1197
+
+	SetClimateTraitNumeric DivideCLIMATE 0 291
+	SetClimateTraitNumeric DivideCLIMATE 1 351
+	SetClimateTraitNumeric DivideCLIMATE 2 1137
+	SetClimateTraitNumeric DivideCLIMATE 3 1197
+
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 0 355
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 1 416
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 2 1224
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 3 1284
+
+	SetClimateTraitNumeric TranqLaneCLIMATE 0 355
+	SetClimateTraitNumeric TranqLaneCLIMATE 1 416
+	SetClimateTraitNumeric TranqLaneCLIMATE 2 1224
+	SetClimateTraitNumeric TranqLaneCLIMATE 3 1284
+
+	SetClimateTraitNumeric ThePittCLIMATE 0 360
+	SetClimateTraitNumeric ThePittCLIMATE 1 420
+	SetClimateTraitNumeric ThePittCLIMATE 2 1230
+	SetClimateTraitNumeric ThePittCLIMATE 3 1290
+
+	SetClimateTraitNumeric PointLookoutCLIMATE 0 355
+	SetClimateTraitNumeric PointLookoutCLIMATE 1 416
+	SetClimateTraitNumeric PointLookoutCLIMATE 2 1224
+	SetClimateTraitNumeric PointLookoutCLIMATE 3 1284
+
+	SetClimateTraitNumeric AnchorageCLIMATE 0 303
+	SetClimateTraitNumeric AnchorageCLIMATE 1 363
+	SetClimateTraitNumeric AnchorageCLIMATE 2 1368
+	SetClimateTraitNumeric AnchorageCLIMATE 3 1428
+	
+	set RWLEQuest.iSpecialMoon to 0
+	printc "RWLE: Month 5 climate changed [ClimateTraitsUDF]"
+elseif sCurrentMonth == 5
+SetClimateTraitNumeric MojaveCLIMATE 0 264
+	SetClimateTraitNumeric MojaveCLIMATE 1 324
+	SetClimateTraitNumeric MojaveCLIMATE 2 1146
+	SetClimateTraitNumeric MojaveCLIMATE 3 1206
+
+	SetClimateTraitNumeric BigMountainCLIMATE 0 264
+	SetClimateTraitNumeric BigMountainCLIMATE 1 324
+	SetClimateTraitNumeric BigMountainCLIMATE 2 1146
+	SetClimateTraitNumeric BigMountainCLIMATE 3 1206
+
+	SetClimateTraitNumeric SierraCLIMATE 0 264
+	SetClimateTraitNumeric SierraCLIMATE 1 324
+	SetClimateTraitNumeric SierraCLIMATE 2 1146
+	SetClimateTraitNumeric SierraCLIMATE 3 1206
+
+	SetClimateTraitNumeric ZionCLIMATE 0 264
+	SetClimateTraitNumeric ZionCLIMATE 1 324
+	SetClimateTraitNumeric ZionCLIMATE 2 1146
+	SetClimateTraitNumeric ZionCLIMATE 3 1206
+
+	SetClimateTraitNumeric DivideCLIMATE 0 264
+	SetClimateTraitNumeric DivideCLIMATE 1 324
+	SetClimateTraitNumeric DivideCLIMATE 2 1146
+	SetClimateTraitNumeric DivideCLIMATE 3 1206
+
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 0 349
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 1 410
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 2 1248
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 3 1308
+
+	SetClimateTraitNumeric TranqLaneCLIMATE 0 349
+	SetClimateTraitNumeric TranqLaneCLIMATE 1 410
+	SetClimateTraitNumeric TranqLaneCLIMATE 2 1248
+	SetClimateTraitNumeric TranqLaneCLIMATE 3 1308
+
+	SetClimateTraitNumeric ThePittCLIMATE 0 354
+	SetClimateTraitNumeric ThePittCLIMATE 1 414
+	SetClimateTraitNumeric ThePittCLIMATE 2 1254
+	SetClimateTraitNumeric ThePittCLIMATE 3 1314
+
+	SetClimateTraitNumeric PointLookoutCLIMATE 0 349
+	SetClimateTraitNumeric PointLookoutCLIMATE 1 410
+	SetClimateTraitNumeric PointLookoutCLIMATE 2 1248
+	SetClimateTraitNumeric PointLookoutCLIMATE 3 1308
+
+	SetClimateTraitNumeric AnchorageCLIMATE 0 264
+	SetClimateTraitNumeric AnchorageCLIMATE 1 324
+	SetClimateTraitNumeric AnchorageCLIMATE 2 1428
+	SetClimateTraitNumeric AnchorageCLIMATE 3 1488
+
+	set RWLEQuest.iSpecialMoon to 1
+	printc "RWLE: Month 6 climate changed [ClimateTraitsUDF]"
+elseif sCurrentMonth == 6
+	SetClimateTraitNumeric MojaveCLIMATE 0 296
+	SetClimateTraitNumeric MojaveCLIMATE 1 356
+	SetClimateTraitNumeric MojaveCLIMATE 2 1143
+	SetClimateTraitNumeric MojaveCLIMATE 3 1203
+
+	SetClimateTraitNumeric BigMountainCLIMATE 0 296
+	SetClimateTraitNumeric BigMountainCLIMATE 1 356
+	SetClimateTraitNumeric BigMountainCLIMATE 2 1143
+	SetClimateTraitNumeric BigMountainCLIMATE 3 1203
+
+	SetClimateTraitNumeric SierraCLIMATE 0 296
+	SetClimateTraitNumeric SierraCLIMATE 1 356
+	SetClimateTraitNumeric SierraCLIMATE 2 1143
+	SetClimateTraitNumeric SierraCLIMATE 3 1203
+
+	SetClimateTraitNumeric ZionCLIMATE 0 296
+	SetClimateTraitNumeric ZionCLIMATE 1 356
+	SetClimateTraitNumeric ZionCLIMATE 2 1143
+	SetClimateTraitNumeric ZionCLIMATE 3 1203
+
+	SetClimateTraitNumeric DivideCLIMATE 0 296
+	SetClimateTraitNumeric DivideCLIMATE 1 356
+	SetClimateTraitNumeric DivideCLIMATE 2 1143
+	SetClimateTraitNumeric DivideCLIMATE 3 1203
+
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 0 360
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 1 420
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 2 1230
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 3 1290
+
+	SetClimateTraitNumeric TranqLaneCLIMATE 0 360
+	SetClimateTraitNumeric TranqLaneCLIMATE 1 420
+	SetClimateTraitNumeric TranqLaneCLIMATE 2 1230
+	SetClimateTraitNumeric TranqLaneCLIMATE 3 1290
+
+	SetClimateTraitNumeric ThePittCLIMATE 0 360
+	SetClimateTraitNumeric ThePittCLIMATE 1 420
+	SetClimateTraitNumeric ThePittCLIMATE 2 1254
+	SetClimateTraitNumeric ThePittCLIMATE 3 1314
+
+	SetClimateTraitNumeric PointLookoutCLIMATE 0 360
+	SetClimateTraitNumeric PointLookoutCLIMATE 1 420
+	SetClimateTraitNumeric PointLookoutCLIMATE 2 1230
+	SetClimateTraitNumeric PointLookoutCLIMATE 3 1290
+
+	SetClimateTraitNumeric AnchorageCLIMATE 0 294
+	SetClimateTraitNumeric AnchorageCLIMATE 1 354
+	SetClimateTraitNumeric AnchorageCLIMATE 2 1404
+	SetClimateTraitNumeric AnchorageCLIMATE 3 1464
+	
+	set RWLEQuest.iSpecialMoon to 0
+	printc "RWLE: Month 7 climate changed [ClimateTraitsUDF]"
+elseif sCurrentMonth == 7
+	SetClimateTraitNumeric MojaveCLIMATE 0 310
+	SetClimateTraitNumeric MojaveCLIMATE 1 370
+	SetClimateTraitNumeric MojaveCLIMATE 2 1113
+	SetClimateTraitNumeric MojaveCLIMATE 3 1173
+
+	SetClimateTraitNumeric BigMountainCLIMATE 0 310
+	SetClimateTraitNumeric BigMountainCLIMATE 1 370
+	SetClimateTraitNumeric BigMountainCLIMATE 2 1113
+	SetClimateTraitNumeric BigMountainCLIMATE 3 1173
+
+	SetClimateTraitNumeric SierraCLIMATE 0 310
+	SetClimateTraitNumeric SierraCLIMATE 1 370
+	SetClimateTraitNumeric SierraCLIMATE 2 1113
+	SetClimateTraitNumeric SierraCLIMATE 3 1173
+
+	SetClimateTraitNumeric ZionCLIMATE 0 310
+	SetClimateTraitNumeric ZionCLIMATE 1 370
+	SetClimateTraitNumeric ZionCLIMATE 2 1113
+	SetClimateTraitNumeric ZionCLIMATE 3 1173
+
+	SetClimateTraitNumeric DivideCLIMATE 0 310
+	SetClimateTraitNumeric DivideCLIMATE 1 370
+	SetClimateTraitNumeric DivideCLIMATE 2 1113
+	SetClimateTraitNumeric DivideCLIMATE 3 1173
+
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 0 390
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 1 450
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 2 1197
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 3 1257
+
+	SetClimateTraitNumeric TranqLaneCLIMATE 0 390
+	SetClimateTraitNumeric TranqLaneCLIMATE 1 450
+	SetClimateTraitNumeric TranqLaneCLIMATE 2 1197
+	SetClimateTraitNumeric TranqLaneCLIMATE 3 1257
+
+	SetClimateTraitNumeric ThePittCLIMATE 0 390
+	SetClimateTraitNumeric ThePittCLIMATE 1 450
+	SetClimateTraitNumeric ThePittCLIMATE 2 1224
+	SetClimateTraitNumeric ThePittCLIMATE 3 1284
+
+	SetClimateTraitNumeric PointLookoutCLIMATE 0 390
+	SetClimateTraitNumeric PointLookoutCLIMATE 1 450
+	SetClimateTraitNumeric PointLookoutCLIMATE 2 1197
+	SetClimateTraitNumeric PointLookoutCLIMATE 3 1257
+
+	SetClimateTraitNumeric AnchorageCLIMATE 0 366
+	SetClimateTraitNumeric AnchorageCLIMATE 1 426
+	SetClimateTraitNumeric AnchorageCLIMATE 2 1320
+	SetClimateTraitNumeric AnchorageCLIMATE 3 1380
+
+	set RWLEQuest.iSpecialMoon to 0
+	printc "RWLE: Month 8 climate changed [ClimateTraitsUDF]"
+elseif sCurrentMonth == 8
+	SetClimateTraitNumeric MojaveCLIMATE 0 336
+	SetClimateTraitNumeric MojaveCLIMATE 1 396
+	SetClimateTraitNumeric MojaveCLIMATE 2 1074
+	SetClimateTraitNumeric MojaveCLIMATE 3 1134
+
+	SetClimateTraitNumeric BigMountainCLIMATE 0 336
+	SetClimateTraitNumeric BigMountainCLIMATE 1 396
+	SetClimateTraitNumeric BigMountainCLIMATE 2 1074
+	SetClimateTraitNumeric BigMountainCLIMATE 3 1134
+
+	SetClimateTraitNumeric SierraCLIMATE 0 336
+	SetClimateTraitNumeric SierraCLIMATE 1 396
+	SetClimateTraitNumeric SierraCLIMATE 2 1074
+	SetClimateTraitNumeric SierraCLIMATE 3 1134
+
+	SetClimateTraitNumeric ZionCLIMATE 0 336
+	SetClimateTraitNumeric ZionCLIMATE 1 396
+	SetClimateTraitNumeric ZionCLIMATE 2 1074
+	SetClimateTraitNumeric ZionCLIMATE 3 1134
+
+	SetClimateTraitNumeric DivideCLIMATE 0 336
+	SetClimateTraitNumeric DivideCLIMATE 1 396
+	SetClimateTraitNumeric DivideCLIMATE 2 1074
+	SetClimateTraitNumeric DivideCLIMATE 3 1134
+
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 0 416
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 1 476
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 2 1143
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 3 1203
+
+	SetClimateTraitNumeric TranqLaneCLIMATE 0 416
+	SetClimateTraitNumeric TranqLaneCLIMATE 1 476
+	SetClimateTraitNumeric TranqLaneCLIMATE 2 1143
+	SetClimateTraitNumeric TranqLaneCLIMATE 3 1203
+
+	SetClimateTraitNumeric ThePittCLIMATE 0 420
+	SetClimateTraitNumeric ThePittCLIMATE 1 480
+	SetClimateTraitNumeric ThePittCLIMATE 2 1170
+	SetClimateTraitNumeric ThePittCLIMATE 3 1230
+
+	SetClimateTraitNumeric PointLookoutCLIMATE 0 416
+	SetClimateTraitNumeric PointLookoutCLIMATE 1 476
+	SetClimateTraitNumeric PointLookoutCLIMATE 2 1143
+	SetClimateTraitNumeric PointLookoutCLIMATE 3 1203
+
+	SetClimateTraitNumeric AnchorageCLIMATE 0 450
+	SetClimateTraitNumeric AnchorageCLIMATE 1 510
+	SetClimateTraitNumeric AnchorageCLIMATE 2 1224
+	SetClimateTraitNumeric AnchorageCLIMATE 3 1284
+	
+	set RWLEQuest.iSpecialMoon to 1
+	printc "RWLE: Month 9 climate changed [ClimateTraitsUDF]"
+elseif sCurrentMonth == 9
+	SetClimateTraitNumeric MojaveCLIMATE 0 360
+	SetClimateTraitNumeric MojaveCLIMATE 1 420
+	SetClimateTraitNumeric MojaveCLIMATE 2 1026
+	SetClimateTraitNumeric MojaveCLIMATE 3 1086
+
+	SetClimateTraitNumeric BigMountainCLIMATE 0 360
+	SetClimateTraitNumeric BigMountainCLIMATE 1 420
+	SetClimateTraitNumeric BigMountainCLIMATE 2 1026
+	SetClimateTraitNumeric BigMountainCLIMATE 3 1086
+
+	SetClimateTraitNumeric SierraCLIMATE 0 360
+	SetClimateTraitNumeric SierraCLIMATE 1 420
+	SetClimateTraitNumeric SierraCLIMATE 2 1026
+	SetClimateTraitNumeric SierraCLIMATE 3 1086
+
+	SetClimateTraitNumeric ZionCLIMATE 0 360
+	SetClimateTraitNumeric ZionCLIMATE 1 420
+	SetClimateTraitNumeric ZionCLIMATE 2 1026
+	SetClimateTraitNumeric ZionCLIMATE 3 1086
+
+	SetClimateTraitNumeric DivideCLIMATE 0 360
+	SetClimateTraitNumeric DivideCLIMATE 1 420 
+	SetClimateTraitNumeric DivideCLIMATE 2 1026
+	SetClimateTraitNumeric DivideCLIMATE 3 1086
+					
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 0 420
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 1 480
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 2 1105
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 3 1165
+
+	SetClimateTraitNumeric TranqLaneCLIMATE 0 420
+	SetClimateTraitNumeric TranqLaneCLIMATE 1 480
+	SetClimateTraitNumeric TranqLaneCLIMATE 2 1105
+	SetClimateTraitNumeric TranqLaneCLIMATE 3 1165
+
+	SetClimateTraitNumeric ThePittCLIMATE 0 450
+	SetClimateTraitNumeric ThePittCLIMATE 1 510
+	SetClimateTraitNumeric ThePittCLIMATE 2 1128
+	SetClimateTraitNumeric ThePittCLIMATE 3 1188
+
+	SetClimateTraitNumeric PointLookoutCLIMATE 0 420
+	SetClimateTraitNumeric PointLookoutCLIMATE 1 480
+	SetClimateTraitNumeric PointLookoutCLIMATE 2 1105
+	SetClimateTraitNumeric PointLookoutCLIMATE 3 1165
+
+	SetClimateTraitNumeric AnchorageCLIMATE 0 534
+	SetClimateTraitNumeric AnchorageCLIMATE 1 594
+	SetClimateTraitNumeric AnchorageCLIMATE 2 1134
+	SetClimateTraitNumeric AnchorageCLIMATE 3 1194
+	
+	set RWLEQuest.iSpecialMoon to 0
+	printc "RWLE: Month 10 climate changed [ClimateTraitsUDF]"
+elseif sCurrentMonth == 10 
+SetClimateTraitNumeric MojaveCLIMATE 0 390
+	SetClimateTraitNumeric MojaveCLIMATE 1 450
+	SetClimateTraitNumeric MojaveCLIMATE 2 975
+	SetClimateTraitNumeric MojaveCLIMATE 3 1050
+
+	SetClimateTraitNumeric BigMountainCLIMATE 0 390
+	SetClimateTraitNumeric BigMountainCLIMATE 1 450
+	SetClimateTraitNumeric BigMountainCLIMATE 2 975
+	SetClimateTraitNumeric BigMountainCLIMATE 3 1050
+
+	SetClimateTraitNumeric SierraCLIMATE 0 390
+	SetClimateTraitNumeric SierraCLIMATE 1 450
+	SetClimateTraitNumeric SierraCLIMATE 2 975
+	SetClimateTraitNumeric SierraCLIMATE 3 1050
+
+	SetClimateTraitNumeric ZionCLIMATE 0 390
+	SetClimateTraitNumeric ZionCLIMATE 1 450
+	SetClimateTraitNumeric ZionCLIMATE 2 975
+	SetClimateTraitNumeric ZionCLIMATE 3 1050
+
+	SetClimateTraitNumeric DivideCLIMATE 0 390
+	SetClimateTraitNumeric DivideCLIMATE 1 450
+	SetClimateTraitNumeric DivideCLIMATE 2 975
+	SetClimateTraitNumeric DivideCLIMATE 3 1050
+
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 0 420
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 1 480
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 2 1014
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 3 1074
+
+	SetClimateTraitNumeric TranqLaneCLIMATE 0 420
+	SetClimateTraitNumeric TranqLaneCLIMATE 1 480
+	SetClimateTraitNumeric TranqLaneCLIMATE 2 1014
+	SetClimateTraitNumeric TranqLaneCLIMATE 3 1074
+
+	SetClimateTraitNumeric ThePittCLIMATE 0 420
+	SetClimateTraitNumeric ThePittCLIMATE 1 480
+	SetClimateTraitNumeric ThePittCLIMATE 2 1020
+	SetClimateTraitNumeric ThePittCLIMATE 3 1080
+
+	SetClimateTraitNumeric PointLookoutCLIMATE 0 420
+	SetClimateTraitNumeric PointLookoutCLIMATE 1 480
+	SetClimateTraitNumeric PointLookoutCLIMATE 2 1014
+	SetClimateTraitNumeric PointLookoutCLIMATE 3 1074
+
+	SetClimateTraitNumeric AnchorageCLIMATE 0 540
+	SetClimateTraitNumeric AnchorageCLIMATE 1 600
+	SetClimateTraitNumeric AnchorageCLIMATE 2 984
+	SetClimateTraitNumeric AnchorageCLIMATE 3 1044
+	
+	set RWLEQuest.iSpecialMoon to 0
+	printc "RWLE: Month 11 climate changed [ClimateTraitsUDF]"
+elseif sCurrentMonth == 11
+	SetClimateTraitNumeric MojaveCLIMATE 0 606
+	SetClimateTraitNumeric MojaveCLIMATE 1 666
+	SetClimateTraitNumeric MojaveCLIMATE 2 975
+	SetClimateTraitNumeric MojaveCLIMATE 2 1050
+	
+	ClimateAddWeatherType MojaveCLIMATE WastelandSnowVeryLiteWindVeryLite 4
+	ClimateAddWeatherType MojaveCLIMATE WastelandSnowLiteWindMed 4
+	ClimateAddWeatherType MojaveCLIMATE WastelandSnowMediumWindHigh 4
+	ClimateAddWeatherType MojaveCLIMATE WastelandSnowHeavyWindExtreme 3
+
+	SetClimateTraitNumeric BigMountainCLIMATE 0 606
+	SetClimateTraitNumeric BigMountainCLIMATE 1 666
+	SetClimateTraitNumeric BigMountainCLIMATE 2 1010
+	SetClimateTraitNumeric BigMountainCLIMATE 2 1070
+
+	SetClimateTraitNumeric SierraCLIMATE 0 417
+	SetClimateTraitNumeric SierraCLIMATE 1 477
+	SetClimateTraitNumeric SierraCLIMATE 2 1010
+	SetClimateTraitNumeric SierraCLIMATE 2 1070
+
+	SetClimateTraitNumeric ZionCLIMATE 0 417
+	SetClimateTraitNumeric ZionCLIMATE 1 477
+	SetClimateTraitNumeric ZionCLIMATE 2 1010
+	SetClimateTraitNumeric ZionCLIMATE 2 1070
+
+	SetClimateTraitNumeric DivideCLIMATE 0 417
+	SetClimateTraitNumeric DivideCLIMATE 1 477
+	SetClimateTraitNumeric DivideCLIMATE 2 1010
+	SetClimateTraitNumeric DivideCLIMATE 2 1070
+
+	
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 0 445
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 1 509
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 2 1014
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 3 1074
+	
+	ClimateAddWeatherType CapitalWastelandCLIMATE WastelandSnowVeryLiteWindVeryLite 4
+	ClimateAddWeatherType CapitalWastelandCLIMATE WastelandSnowLiteWindMed 4
+	ClimateAddWeatherType CapitalWastelandCLIMATE WastelandSnowMediumWindHigh 4
+	ClimateAddWeatherType CapitalWastelandCLIMATE WastelandSnowHeavyWindExtreme 3
+
+	SetClimateTraitNumeric TranqLaneCLIMATE 0 445
+	SetClimateTraitNumeric TranqLaneCLIMATE 1 509
+	SetClimateTraitNumeric TranqLaneCLIMATE 2 1014
+	SetClimateTraitNumeric TranqLaneCLIMATE 3 1074
+
+	SetClimateTraitNumeric ThePittCLIMATE 0 450
+	SetClimateTraitNumeric ThePittCLIMATE 1 510
+	SetClimateTraitNumeric ThePittCLIMATE 2 1020
+	SetClimateTraitNumeric ThePittCLIMATE 3 1080
+
+	SetClimateTraitNumeric PointLookoutCLIMATE 0 606
+	SetClimateTraitNumeric PointLookoutCLIMATE 1 666
+	SetClimateTraitNumeric PointLookoutCLIMATE 2 948
+	SetClimateTraitNumeric PointLookoutCLIMATE 3 1008
+	set RWLEQuest.iSpecialMoon to 0
+	printc "RWLE: Month 12 climate changed [ClimateTraitsUDF]"
+else 
+	SetClimateTraitNumeric MojaveCLIMATE 0 420
+	SetClimateTraitNumeric MojaveCLIMATE 1 480
+	SetClimateTraitNumeric MojaveCLIMATE 2 1026
+	SetClimateTraitNumeric MojaveCLIMATE 3 1086 
+	
+	ClimateAddWeatherType MojaveCLIMATE WastelandSnowVeryLiteWindVeryLite 4
+	ClimateAddWeatherType MojaveCLIMATE WastelandSnowLiteWindMed 4
+	ClimateAddWeatherType MojaveCLIMATE WastelandSnowMediumWindHigh 4
+	ClimateAddWeatherType MojaveCLIMATE WastelandSnowHeavyWindExtreme 3
+
+	SetClimateTraitNumeric BigMountainCLIMATE 0 420 
+	SetClimateTraitNumeric BigMountainCLIMATE 1 480 
+	SetClimateTraitNumeric BigMountainCLIMATE 2 1026 
+	SetClimateTraitNumeric BigMountainCLIMATE 3 1086 
+
+	SetClimateTraitNumeric SierraCLIMATE 0 420
+	SetClimateTraitNumeric SierraCLIMATE 1 480 
+	SetClimateTraitNumeric SierraCLIMATE 2 1026
+	SetClimateTraitNumeric SierraCLIMATE 3 1086 
+
+	SetClimateTraitNumeric ZionCLIMATE 0 420
+	SetClimateTraitNumeric ZionCLIMATE 1 480 
+	SetClimateTraitNumeric ZionCLIMATE 2 1026
+	SetClimateTraitNumeric ZionCLIMATE 3 1086
+
+	SetClimateTraitNumeric DivideCLIMATE 0 420
+	SetClimateTraitNumeric DivideCLIMATE 1 480
+	SetClimateTraitNumeric DivideCLIMATE 2 1026
+	SetClimateTraitNumeric DivideCLIMATE 3 1086
+
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 0 445  
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 1 506
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 2 1023
+	SetClimateTraitNumeric CapitalWastelandCLIMATE 3 1083
+
+	SetClimateTraitNumeric TranqLaneCLIMATE 0 445
+	SetClimateTraitNumeric TranqLaneCLIMATE 1 506
+	SetClimateTraitNumeric TranqLaneCLIMATE 2 1023
+	SetClimateTraitNumeric TranqLaneCLIMATE 3 1083  
+
+	SetClimateTraitNumeric ThePittCLIMATE 0 468 
+	SetClimateTraitNumeric ThePittCLIMATE 1 528
+	SetClimateTraitNumeric ThePittCLIMATE 2 1044
+	SetClimateTraitNumeric ThePittCLIMATE 3 1104 
+
+	SetClimateTraitNumeric PointLookoutCLIMATE 0 445
+	SetClimateTraitNumeric PointLookoutCLIMATE 1 506 
+	SetClimateTraitNumeric PointLookoutCLIMATE 2 1023 
+	SetClimateTraitNumeric PointLookoutCLIMATE 3 1083
+
+	SetClimateTraitNumeric AnchorageCLIMATE 0 600
+	SetClimateTraitNumeric AnchorageCLIMATE 1 660
+	SetClimateTraitNumeric AnchorageCLIMATE 2 990
+	SetClimateTraitNumeric AnchorageCLIMATE 3 1050
+	set RWLEQuest.iSpecialMoon to 1
+	printc "RWLE: Month 1 climate changed [ClimateTraitsUDF]"
+endif
+;printc "RWLE Debug: Climate function ran"
+
+End   

@@ -1,0 +1,363 @@
+scn aaaRWLEWeatherSetupUDF
+
+ref rCurrentClimate
+ref rCurrentWorldspace
+ref rCurrentWeather 
+ref rPreviousWeather
+ref rCurrentCell
+
+short iSpecialInteriors
+short iProtectedDustStormAreas
+
+float fRand 
+
+begin function { rCurrentClimate, rCurrentCell, rCurrentWorldspace, rCurrentWeather, iSpecialInteriors, iProtectedDustStormAreas, rPreviousWeather, fRand}
+	if RWLEQuest.iWeatherType == 1 																											;Downpour 
+		SetSoundSourceFile ExtSound1 "fx\rwle\outside\rain\amb_rain_downpour_1_lp.wav"
+		SetSoundSourceFile ExtSound2 "fx\rwle\outside\wind\extreme\amb_wind_extreme_storm_1_lp.wav"
+		SetSoundSourceFile ExtSound3 "fx\rwle\outside\misc\amb_thunder_dist_1_lp.wav"
+		SetSoundSourceFile ExtSound4 "fx\rwle\outside\wind\extreme\amb_wind_extreme_storm_1_fadein.wav"
+		SetSoundSourceFile ExtSound5 "fx\rwle\amb_silence_lp.wav"
+		
+		SetSoundSourceFile IntSound1 "fx\rwle\interior\rain\amb_interior_downpour_1_lp.wav"
+		SetSoundSourceFile IntSound2 "fx\rwle\interior\wind\amb_interior_wind_extreme_1_lp.wav"	
+		SetSoundSourceFile IntSound3 "fx\rwle\interior\thunder\amb_interior_thunder_1_lp.wav"
+		SetSoundSourceFile IntSound4 "fx\rwle\interior\rain\amb_interior_downpour_tinroof_1_lp.wav"
+		printc "RWLE: Weather setup downpour [WeatherSetupUDF]"
+	elseif RWLEQuest.iWeatherType == 2 																								;Thunderstorms 
+		SetSoundSourceFile ExtSound1 "fx\rwle\outside\rain\amb_rain_thunderstorm_1_lp.wav"
+		SetSoundSourceFile ExtSound2 "fx\rwle\outside\wind\extreme\amb_wind_extreme_storm_1_lp.wav"
+		SetSoundSourceFile ExtSound3 "fx\rwle\outside\misc\amb_thunder_dist_1_lp.wav"
+		SetSoundSourceFile ExtSound4 "fx\rwle\outside\wind\extreme\amb_wind_extreme_storm_1_fadein.wav"
+		SetSoundSourceFile ExtSound5 "fx\rwle\amb_silence_lp.wav"
+		
+		SetSoundSourceFile IntSound1 "fx\rwle\interior\rain\amb_interior_thunderstorm_1_lp.wav"
+		SetSoundSourceFile IntSound2 "fx\rwle\interior\wind\amb_interior_wind_extreme_1_lp.wav"
+		SetSoundSourceFile IntSound3 "fx\rwle\interior\thunder\amb_interior_thunder_1_lp.wav"
+		SetSoundSourceFile IntSound4 "fx\rwle\interior\rain\amb_interior_thunderstorm_tinroof_1_lp.wav"
+		printc "RWLE: Weather setup thunderstorms [WeatherSetupUDF]"
+	elseif RWLEQuest.iWeatherType == 3                                                                                                    ; Medium rain 
+		SetSoundSourceFile ExtSound1 "fx\rwle\outside\rain\amb_rain_medium_1_lp.wav"
+		SetSoundSourceFile ExtSound2 "fx\rwle\outside\wind\med\amb_wind_med_1_lp.wav"
+		SetSoundSourceFile ExtSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound4 "fx\rwle\outside\wind\med\amb_wind_med_1_fadein.wav"
+		SetSoundSourceFile ExtSound5 "fx\rwle\amb_silence_lp.wav"
+		
+		SetSoundSourceFile IntSound1 "fx\rwle\interior\rain\amb_interior_rain_med_1_lp.wav"
+		SetSoundSourceFile IntSound2 "fx\rwle\interior\wind\amb_interior_wind_med_1_lp.wav"
+		SetSoundSourceFile IntSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound4 "fx\rwle\interior\rain\amb_interior_rain_med_tinroof_1_lp.wav"
+		printc "RWLE: Weather setup medium rain [WeatherSetupUDF]"
+	elseif RWLEQuest.iWeatherType == 4 																										;Drizzle 
+		SetSoundSourceFile ExtSound1 "fx\rwle\outside\rain\amb_rain_drizzle_1_lp.wav"
+		SetSoundSourceFile ExtSound2 "fx\rwle\outside\wind\very_lite\amb_wind_very_lite_1_lp.wav"
+		SetSoundSourceFile ExtSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound4 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound5 "fx\rwle\amb_silence_lp.wav"
+		
+		SetSoundSourceFile IntSound1 "fx\rwle\interior\rain\amb_interior_drizzle_1_lp.wav"	
+		SetSoundSourceFile IntSound2 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound4 "fx\rwle\interior\rain\amb_interior_drizzle_tinroof_1_lp.wav"
+		printc "RWLE: Weather setup drizzle [WeatherSetupUDF]"
+	elseif	RWLEQuest.iWeatherType == 5 																									;Blizzard 
+		SetSoundSourceFile ExtSound1 "fx\rwle\outside\wind\extreme\amb_wind_extreme_1_lp.wav"
+		SetSoundSourceFile ExtSound2 "fx\rwle\outside\wind\extreme\amb_wind_extreme_1_fadein.wav"
+		SetSoundSourceFile ExtSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound4 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound5 "fx\rwle\amb_silence_lp.wav"
+		
+		SetSoundSourceFile IntSound1 "fx\rwle\interior\wind\amb_interior_wind_extreme_1_lp.wav"	
+		SetSoundSourceFile IntSound2 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound4 "fx\rwle\amb_silence_lp.wav"
+		printc "RWLE: Weather setup blizzard [WeatherSetupUDF]"
+	elseif RWLEQuest.iWeatherType == 6 																											;Snow heavy 
+		if fRand >= 1 && fRand <= 25
+			SetSoundSourceFile ExtSound1 "fx\rwle\outside\wind\high\amb_wind_high_1_lp.wav"
+			SetSoundSourceFile ExtSound2 "fx\rwle\outside\wind\high\amb_wind_high_1_fadein.wav"
+			SetSoundSourceFile IntSound1 "fx\rwle\interior\wind\amb_interior_wind_basement_1_lp.wav"	
+			printc "RWLE: Weather setup snow heavy - high wind 1 [WeatherSetupUDF]"
+		elseif fRand >= 26 && fRand <= 50 
+			SetSoundSourceFile ExtSound1 "fx\rwle\outside\wind\high\amb_wind_high_2_lp.wav"
+			SetSoundSourceFile ExtSound2 "fx\rwle\outside\wind\high\amb_wind_high_2_fadein.wav"
+			SetSoundSourceFile IntSound1 "fx\rwle\interior\wind\amb_interior_wind_extreme_1_lp.wav"	
+			printc "RWLE: Weather setup snow heavy - high wind 2 [WeatherSetupUDF]"
+		elseif fRand >= 50 && fRand <= 75
+			SetSoundSourceFile ExtSound1 "fx\rwle\outside\wind\high\amb_wind_high_3_lp.wav"
+			SetSoundSourceFile ExtSound2 "fx\rwle\outside\wind\high\amb_wind_high_3_fadein.wav"
+			SetSoundSourceFile IntSound1 "fx\rwle\interior\wind\high\amb_interior_wind_extreme_1_lp.wav"	
+			printc "RWLE: Weather setup snow heavy - high wind 3 [WeatherSetupUDF]"
+		elseif fRand > 75 
+			SetSoundSourceFile ExtSound1 "fx\rwle\outside\wind\high\amb_wind_high_ambient_track_1_lp.wav"
+			SetSoundSourceFile ExtSound2 "fx\rwle\amb_silence_lp.wav"
+			SetSoundSourceFile IntSound1 "fx\rwle\interior\wind\amb_interior_wind_basement_1_lp.wav"	
+			printc "RWLE: Weather setup snow heavy - high wind ambient [WeatherSetupUDF]"
+		endif 
+		SetSoundSourceFile ExtSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound4 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound5 "fx\rwle\amb_silence_lp.wav"
+		
+		SetSoundSourceFile IntSound2 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound4 "fx\rwle\amb_silence_lp.wav"
+	elseif RWLEQuest.iWeatherType == 7 																											;Snow medium 
+		SetSoundSourceFile ExtSound1 "fx\rwle\outside\wind\med\amb_wind_med_1_lp.wav"
+		SetSoundSourceFile ExtSound2 "fx\rwle\outside\wind\med\amb_wind_med_1_fadein.wav"
+		SetSoundSourceFile ExtSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound4 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound5 "fx\rwle\amb_silence_lp.wav"
+		
+		SetSoundSourceFile IntSound1 "fx\rwle\amb_interior_wind_med_1_lp.wav"	
+		SetSoundSourceFile IntSound2 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound4 "fx\rwle\amb_silence_lp.wav"
+		printc "RWLE: Weather setup snow medium [WeatherSetupUDF]"
+	elseif RWLEQuest.iWeatherType == 8																													 ;Snow lite 
+		SetSoundSourceFile ExtSound1 "fx\rwle\outside\wind\very_lite\amb_wind_very_lite_1_lp.wav"
+		SetSoundSourceFile ExtSound2 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound4 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound5 "fx\rwle\amb_silence_lp.wav"
+	
+		SetSoundSourceFile IntSound1 "fx\rwle\amb_silence_lp.wav"	
+		SetSoundSourceFile IntSound2 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound4 "fx\rwle\amb_silence_lp.wav"
+		printc "RWLE: Weather setup snow lite [WeatherSetupUDF]"
+	elseif RWLEQuest.iWeatherType == 9	                                                                                                                      ;Snow very lite 
+		SetSoundSourceFile ExtSound1 "fx\rwle\outside\wind\very_lite\amb_wind_very_lite_1_lp.wav"
+		SetSoundSourceFile ExtSound2 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound4 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound5 "fx\rwle\amb_silence_lp.wav"
+	
+		SetSoundSourceFile IntSound1 "fx\rwle\amb_silence_lp.wav"	
+		SetSoundSourceFile IntSound2 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound4 "fx\rwle\amb_silence_lp.wav"
+		printc "RWLE: Weather setup snow very lite [WeatherSetupUDF]"
+	 elseif RWLEQuest.iWeatherType == 10 || RWLEQuest.iWeatherType == 11 || RWLEQuest.iWeatherType == 12 || RWLEQuest.iWeatherType == 13 || RWLEQuest.iWeatherType == 21 ;Ash standard, cinders, cinders bright and strong, pitt smog 
+		SetSoundSourceFile ExtSound1 "fx\rwle\outside\wind\very_lite\amb_wind_very_lite_1_lp.wav"
+		SetSoundSourceFile ExtSound2 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound4 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound5 "fx\rwle\amb_silence_lp.wav"
+		
+		SetSoundSourceFile IntSound1 "fx\rwle\amb_silence_lp.wav"	
+		SetSoundSourceFile IntSound2 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound4 "fx\rwle\amb_silence_lp.wav"
+		printc "RWLE: Weather setup ash variants and pitt smog [WeatherSetupUDF]"
+	elseif RWLEQuest.iWeatherType == 14 || RWLEQuest.iWeatherType == 15 													 ;Sand storms DC and NV
+		if iSpecialInteriors || iProtectedDustStormAreas
+			SetWeatherTraitNumeric MojaveSandStormWindExtreme 15 5000         ;Fog day near
+			SetWeatherTraitNumeric MojaveSandStormWindExtreme 16 10000         ;Fog day far
+			SetWeatherTraitNumeric MojaveSandStormWindExtreme 17 5000         ;Night near
+			SetWeatherTraitNumeric MojaveSandStormWindExtreme 18 10000         ;Night far
+			
+			SetWeatherTraitNumeric CapitalWastelandSandStormWindExtreme 15 5000         ;Fog day near
+			SetWeatherTraitNumeric CapitalWastelandSandStormWindExtreme 16 10000         ;Fog day far
+			SetWeatherTraitNumeric CapitalWastelandSandStormWindExtreme 17 5000         ;Night near
+			SetWeatherTraitNumeric CapitalWastelandSandStormWindExtreme 18 10000 		;Night far
+		else
+			SetWeatherTraitNumeric MojaveSandStormWindExtreme 15 50
+			SetWeatherTraitNumeric MojaveSandStormWindExtreme 16 1000
+			SetWeatherTraitNumeric MojaveSandStormWindExtreme 17 50
+			SetWeatherTraitNumeric MojaveSandStormWindExtreme 18 1000
+			
+			SetWeatherTraitNumeric CapitalWastelandSandStormWindExtreme 15 50
+			SetWeatherTraitNumeric CapitalWastelandSandStormWindExtreme 16 1000
+			SetWeatherTraitNumeric CapitalWastelandSandStormWindExtreme 17 50
+			SetWeatherTraitNumeric CapitalWastelandSandStormWindExtreme 18 1000
+		endif
+		
+		SetSoundSourceFile ExtSound1 "fx\rwle\outside\wind\extreme\amb_wind_extreme_sandstorm_1_lp.wav"
+		SetSoundSourceFile ExtSound2 "fx\rwle\outside\wind\extreme\amb_wind_extreme_sandstorm_settlement_1_lp.wav"
+		SetSoundSourceFile ExtSound3 "fx\rwle\outside\wind\extreme\amb_wind_extreme_storm_1_fadein.wav"
+		SetSoundSourceFile ExtSound4 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound5 "fx\rwle\amb_silence_lp.wav"
+	
+		SetSoundSourceFile IntSound1 "fx\rwle\interior\wind\amb_interior_wind_extreme_1_lp.wav"	
+		SetSoundSourceFile IntSound2 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound4 "fx\rwle\amb_silence_lp.wav"
+		printc "RWLE: Weather setup sandstorms [WeatherSetupUDF]"
+	elseif RWLEQuest.iWeatherType == 16 || RWLEQuest.iWeatherType == 17 || RWLEQuest.iWeatherType == 18 || RWLEQuest.iWeatherType == 19 ;Heat haze types
+		SetSoundSourceFile ExtSound1 "fx\rwle\outside\wind\very_lite\amb_wind_very_lite_1_lp.wav"
+		SetSoundSourceFile ExtSound2 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound3 "fx\rwle\amb_silence_lp.wav"	
+		SetSoundSourceFile ExtSound4 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound5 "fx\rwle\amb_silence_lp.wav"
+		
+		SetSoundSourceFile IntSound1 "fx\rwle\amb_silence_lp.wav"	
+		SetSoundSourceFile IntSound2 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound4 "fx\rwle\amb_silence_lp.wav"
+		printc "RWLE: Weather setup heathaze [WeatherSetupUDF]"
+	elseif RWLEQuest.iWeatherType == 20  																		;Dunwich fog 
+		SetSoundSourceFile ExtSound1 "fx\rwle\interior\wind\amb_interior_wind_basement_quiet_1_lp.wav"
+		SetSoundSourceFile ExtSound2 "fx\rwle\interior\misc\amb_vocal_hum_1_lp.wav"
+		SetSoundSourceFile ExtSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound4 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound5 "fx\rwle\amb_silence_lp.wav"
+		
+		SetSoundSourceFile IntSound1 "fx\rwle\amb_silence_lp.wav"	
+		SetSoundSourceFile IntSound2 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound4 "fx\rwle\amb_silence_lp.wav"
+		printc "RWLE: Weather setup dunwich fog [WeatherSetupUDF]"
+	elseif RWLEQuest.iWeatherType == 23 || RWLEQuest.iWeatherType == 33																			;Rad storm 
+		player.AddPerk aaaRWLEWeatherPerkRadStorms
+		SetSoundSourceFile ExtSound1 "fx\rwle\outside\rain\amb_rain_downpour_1_lp.wav"
+		SetSoundSourceFile ExtSound2 "fx\rwle\outside\wind\extreme\amb_wind_extreme_sandstorm_1_lp.wav"
+		SetSoundSourceFile ExtSound3 "fx\rwle\outside\misc\amb_geiger_counter_1_lp.wav"
+		SetSoundSourceFile ExtSound4 "fx\rwle\outside\wind\extreme\amb_wind_extreme_sandstorm_1_fadein.wav"
+		SetSoundSourceFile ExtSound5 "fx\rwle\amb_silence_lp.wav"
+		
+		SetSoundSourceFile IntSound1 "fx\rwle\interior\rain\amb_interior_downpour_1_lp.wav"
+		SetSoundSourceFile IntSound2 "fx\rwle\interior\wind\amb_interior_wind_extreme_1_lp.wav"	
+		SetSoundSourceFile IntSound3 "fx\rwle\interior\thunder\amb_interior_thunder_1_lp.wav"
+		SetSoundSourceFile IntSound4 "fx\rwle\interior\rain\amb_interior_downpour_tinroof_1_lp.wav"
+		printc "RWLE: Weather radstorm setup [WeatherSetupUDF]"
+	elseif RWLEQuest.iWeatherType == 24 																		;Very lite wind 
+		if fRand >= 1 && fRand <= 30 
+			SetSoundSourceFile ExtSound1 "fx\rwle\outside\wind\very_lite\amb_wind_very_lite_1_lp.wav"
+		elseif fRand > 30 && fRand <= 60
+			SetSoundSourceFile ExtSound1 "fx\rwle\outside\wind\very_lite\amb_wind_very_lite_dust_1_lp.wav"
+		elseif fRand > 60 && fRand <= 100 
+			SetSoundSourceFile ExtSound1 "fx\rwle\outside\wind\amb_wind_very_lite_soft_crickets_1_lp.wav"
+		endif 
+		SetSoundSourceFile ExtSound2 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound4 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound5 "fx\rwle\amb_silence_lp.wav"
+		
+		SetSoundSourceFile IntSound1 "fx\rwle\amb_silence_lp.wav"	
+		SetSoundSourceFile IntSound2 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound4 "fx\rwle\amb_silence_lp.wav"
+		printc "RWLE: Weather very lite wind setup [WeatherSetupUDF]"
+	elseif RWLEQuest.iWeatherType == 25 																			;Lite Wind 
+		SetSoundSourceFile ExtSound1 "fx\rwle\outside\wind\very_lite\amb_wind_very_lite_2_lp.wav"
+		SetSoundSourceFile ExtSound2 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound4 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound5 "fx\rwle\amb_silence_lp.wav"
+		
+		SetSoundSourceFile IntSound1 "fx\rwle\amb_silence_lp.wav"	
+		SetSoundSourceFile IntSound2 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound4 "fx\rwle\amb_silence_lp.wav"	
+		printc "RWLE: Weather lite wind setup [WeatherSetupUDF]"
+	elseif RWLEQuest.iWeatherType == 26  || RWLEQuest.iWeatherType == 22																;Med wind and swamp gas 
+		if rCurrentWorldspace == DLC4PointLookout || rCurrentWorldspace == DLC4Bog 
+			SetSoundSourceFile ExtSound1 "fx\rwle\outside\wind\med\amb_wind_med_sea_breeze_1_lp.wav"
+			SetSoundSourceFile IntSound1 "fx\rwle\interior\wind\amb_interior_wind_med_2_lp.wav"
+		else 
+			if fRand >= 1 && fRand <= 50
+				SetSoundSourceFile ExtSound1 "fx\rwle\outside\wind\med\amb_wind_med_1_lp.wav"
+				SetSoundSourceFile IntSound1 "fx\rwle\interior\wind\amb_interior_wind_med_1_lp.wav"
+			elseif fRand >= 50 && fRand <= 100 
+				SetSoundSourceFile ExtSound1 "fx\rwle\outside\wind\med\amb_wind_med_2_lp.wav"
+				SetSoundSourceFile IntSound1 "fx\rwle\interior\wind\amb_interior_wind_med_2_lp.wav"
+			endif 
+		endif 
+		SetSoundSourceFile ExtSound2 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound4 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound5 "fx\rwle\amb_silence_lp.wav"
+		
+		SetSoundSourceFile IntSound2 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound4 "fx\rwle\amb_silence_lp.wav"
+		printc "RWLE: Weather med wind and swamp gas setup [WeatherSetupUDF]"
+	elseif RWLEQuest.iWeatherType == 37 																		;high wind 
+		if fRand >= 1 && fRand <= 25
+			SetSoundSourceFile ExtSound1 "fx\rwle\outside\wind\high\amb_wind_high_1_lp.wav"
+			SetSoundSourceFile IntSound1 "fx\rwle\interior\wind\amb_interior_wind_basement_1_lp.wav"	
+		elseif fRand >= 26 && fRand <= 50 
+			SetSoundSourceFile ExtSound1 "fx\rwle\outside\wind\high\amb_wind_high_2_lp.wav"
+			SetSoundSourceFile IntSound1 "fx\rwle\interior\wind\amb_interior_wind_extreme_1_lp.wav"	
+		elseif fRand >= 50 && fRand <= 75
+			SetSoundSourceFile ExtSound1 "fx\rwle\outside\wind\high\amb_wind_high_3_lp.wav"
+			SetSoundSourceFile IntSound1 "fx\rwle\interior\wind\amb_interior_wind_extreme_1_lp.wav"	
+		elseif fRand > 75 
+			SetSoundSourceFile ExtSound1 "fx\rwle\outside\wind\high\amb_wind_high_ambient_track_lp.wav"
+			SetSoundSourceFile IntSound1 "fx\rwle\interior\wind\amb_interior_wind_basement_1_lp.wav"	
+		endif 
+		SetSoundSourceFile ExtSound2 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound4 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound5 "fx\rwle\amb_silence_lp.wav"
+		
+		SetSoundSourceFile IntSound2 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound4 "fx\rwle\amb_silence_lp.wav"
+		printc "RWLE: Weather high wind setup [WeatherSetupUDF]"
+	elseif RWLEQuest.iWeatherType == 28																		;Wind particles 
+		SetSoundSourceFile ExtSound1 "fx\rwle\outside\wind\extreme\amb_wind_extreme_1_lp.wav"
+		SetSoundSourceFile ExtSound2 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound4 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound5 "fx\rwle\amb_silence_lp.wav"
+		
+		SetSoundSourceFile IntSound1 "fx\rwle\interior\wind\amb_interior_wind_extreme_1_lp.wav"	
+		SetSoundSourceFile IntSound2 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound4 "fx\rwle\amb_silence_lp.wav"
+		printc "RWLE: Weather wind particles setup [WeatherSetupUDF]"
+	elseif RWLEQuest.iWeatherType == 29 																		;Snow particles 
+		SetSoundSourceFile ExtSound1 "fx\rwle\outside\wind\extreme\amb_wind_extreme_1_lp.wav"
+		SetSoundSourceFile ExtSound2 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound4 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound5 "fx\rwle\amb_silence_lp.wav"
+		
+		SetSoundSourceFile IntSound1 "fx\rwle\interior\wind\amb_interior_wind_extreme_1_lp.wav"
+		SetSoundSourceFile IntSound2 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound4 "fx\rwle\amb_silence_lp.wav"
+		printc "RWLE: Weather snow wind particles setup [WeatherSetupUDF]"
+	elseif RWLEQuest.iWeatherType == 30 ;                           ; Fog particles
+		if fRand >= 1 && fRand <= 30 
+			SetSoundSourceFile ExtSound1 "fx\rwle\outside\wind\very_lite\amb_wind_very_lite_1_lp.wav"
+		elseif fRand > 30 && fRand <= 60
+			SetSoundSourceFile ExtSound1 "fx\rwle\outside\wind\very_lite\amb_wind_very_lite_dust_1_lp.wav"
+		elseif fRand > 60 && fRand <= 100 
+			SetSoundSourceFile ExtSound1 "fx\rwle\outside\wind\very_lite\amb_wind_very_lite_soft_crickets_1_lp.wav"
+		endif 
+		SetSoundSourceFile ExtSound2 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound4 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound5 "fx\rwle\amb_silence_lp.wav"
+		
+		SetSoundSourceFile IntSound1 "fx\rwle\amb_silence_lp.wav"	
+		SetSoundSourceFile IntSound2 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound4 "fx\rwle\amb_silence_lp.wav"
+		printc "RWLE: Weather fog setup [WeatherSetupUDF]"
+	else 
+		SetSoundSourceFile ExtSound1 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound2 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound4 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile ExtSound5 "fx\rwle\amb_silence_lp.wav"
+		
+		SetSoundSourceFile IntSound1 "fx\rwle\amb_silence_lp.wav"	
+		SetSoundSourceFile IntSound2 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound3 "fx\rwle\amb_silence_lp.wav"
+		SetSoundSourceFile IntSound4 "fx\rwle\amb_silence_lp.wav"
+	endif 
+ExtSound1REF.Update3D
+ExtSound2REF.Update3D
+ExtSound3REF.Update3D
+ExtSound4REF.Update3D
+ExtSound5REF.Update3D
+
+IntSound1REF.Update3D
+IntSound2REF.Update3D
+IntSound3REF.Update3D
+IntSound4REF.Update3D
+
+end
